@@ -1,15 +1,18 @@
 package org.scu.judgingsystem.service_creator;
 
+import lombok.extern.slf4j.Slf4j;
 import org.scu.judgingsystem.enums.CreatorClassNameEnum;
 import org.scu.judgingsystem.service.JudgeService;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
+@Slf4j
 public abstract class JudgeServiceCreator {
-    protected JudgeService judgeService;
 
     public abstract JudgeService getJudgeService();
+
+    private static final String SINGLETON_METHOD_NAME = "getJudgeServiceCreator";
 
 
     /**
@@ -51,14 +54,12 @@ public abstract class JudgeServiceCreator {
         // 加载类
         Class<?> clazz = classLoader.loadClass(className);
 
-        // 获取默认构造函数
-        Constructor<?> constructor = clazz.getDeclaredConstructor();
-
-        // 设置访问权限（如果构造函数是私有的）
-        constructor.setAccessible(true);
+        // 获取单例方法
+        Method singletonMethod = clazz.getMethod(SINGLETON_METHOD_NAME);
 
         // 创建类实例
-        Object instance = constructor.newInstance();
+        Object instance = singletonMethod.invoke(null);
+        log.info("JudgeServiceCreator————{}", instance.toString());
         return (JudgeServiceCreator) instance;
     }
 }

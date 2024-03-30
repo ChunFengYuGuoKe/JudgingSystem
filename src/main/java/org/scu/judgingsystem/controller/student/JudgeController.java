@@ -39,5 +39,7 @@ public class JudgeController {
         // 3.用creator对象创建JudgeService对象
         // 抽象策略类
         JudgeService judgeService = judgeServiceCreator.getJudgeService();
+
+        log.info("JudgeService————{}", judgeService.toString());
     }
 }
