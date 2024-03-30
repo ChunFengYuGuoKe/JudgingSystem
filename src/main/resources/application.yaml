@@ -2,9 +2,5 @@ spring:
   application:
     name: JudgingSystem
 
-judging-system:
-  ast-service:
-    service-full-name: org.scu.judgingsystem.service.imp.JavaASTService
-
 server:
   port: 8081

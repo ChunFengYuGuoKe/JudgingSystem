@@ -1,4 +1,4 @@
-package org.scu.judgingsystem.service_accessor;
+package org.scu.judgingsystem.service_creator;
 
 import org.scu.judgingsystem.enums.CreatorClassNameEnum;
 import org.scu.judgingsystem.service.JudgeService;
@@ -11,6 +11,12 @@ public abstract class JudgeServiceCreator {
 
     public abstract JudgeService getJudgeService();
 
+
+    /**
+     * 获取具体creator
+     * @param type creator类型值
+     * @return creator
+     */
     public static JudgeServiceCreator getJudgeServiceCreator(int type) {
         // 1.由枚举类获取对应的全类名
         CreatorClassNameEnum[] creatorClassNameEnums = CreatorClassNameEnum.values();
@@ -20,15 +26,8 @@ public abstract class JudgeServiceCreator {
         JudgeServiceCreator judgeServiceCreator;
         try {
             judgeServiceCreator = getCreatorObject(typeClassName.getClassName());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException |
+                 InvocationTargetException e) {
             throw new RuntimeException(e);
         }
 
@@ -36,21 +35,12 @@ public abstract class JudgeServiceCreator {
         return  judgeServiceCreator;
     }
 
-//    public static void loadJudgeServiceCreator(String className) {
-//        try {
-//            // 1.调用getObject方法通过反射创建对象
-//            JudgeServiceCreator judgeServiceCreator = getObject(className);
-//            // 打印类信息
-//            System.out.println("Dynamic class created: " + judgeServiceCreator.getClass().getName());
-//        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-//            e.printStackTrace();
-//        } catch (InvocationTargetException e) {
-//            throw new RuntimeException(e);
-//        } catch (NoSuchMethodException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 
+    /**
+     * 通过反射创建creator对象
+     * @param className 具体Creator全类名
+     * @return creator
+     */
     private static JudgeServiceCreator getCreatorObject(String className) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         // 获取JudgeServiceCreator类加载器
         ClassLoader classLoader = JudgeServiceCreator.class.getClassLoader();
