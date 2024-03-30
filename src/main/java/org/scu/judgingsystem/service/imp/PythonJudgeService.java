@@ -19,7 +19,7 @@ public class PythonJudgeService implements JudgeService {
     }
 
     @Override
-    public void printAST() {
+    public void judge() {
 
     }
 }

@@ -36,7 +36,7 @@ public class JavaJudgeService implements JudgeService {
     }
 
     @Override
-    public void printAST() {
+    public void judge() {
 
     }
 

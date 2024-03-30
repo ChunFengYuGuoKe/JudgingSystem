@@ -9,5 +9,5 @@ public interface JudgeService {
     public CompilationUnit parse(File sourceCode);
 
     // 打印AST
-    public void printAST();
+    public void judge();
 }

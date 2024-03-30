@@ -17,7 +17,7 @@ public class ShellJudgeService implements JudgeService {
     }
 
     @Override
-    public void printAST() {
+    public void judge() {
 
     }
 }
