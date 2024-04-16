@@ -2,6 +2,7 @@ package org.scu.judgingsystem.service.imp;
 
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Node;
 import lombok.Getter;
 import org.scu.judgingsystem.service.JudgeService;
 
@@ -19,7 +20,7 @@ public class PythonJudgeService implements JudgeService {
     }
 
     @Override
-    public void judge() {
-
+    public boolean judge(Node node1, Node node2) {
+        return false;
     }
 }

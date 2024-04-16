@@ -45,6 +45,4 @@ public class SwaggerStaticMappingConfiguration extends WebMvcConfigurationSuppor
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
-
-
 }
