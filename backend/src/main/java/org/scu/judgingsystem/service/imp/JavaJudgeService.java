@@ -4,7 +4,10 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.printer.DotPrinter;
+import com.github.javaparser.printer.configuration.DefaultConfigurationOption;
 import lombok.Getter;
+import org.scu.judgingsystem.reulst.Result;
 import org.scu.judgingsystem.service.JudgeService;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +16,7 @@ import java.io.FileNotFoundException;
 
 
 @Service
-public class JavaJudgeService implements JudgeService {
+public class JavaJudgeService extends JudgeService {
     @Getter
     private static final JavaJudgeService javaJudgeService = new JavaJudgeService();
 
@@ -42,7 +45,7 @@ public class JavaJudgeService implements JudgeService {
     }
 
     @Override
-    public boolean judge(Node node1, Node node2) {
+    public boolean analyse(Node node1, Node node2) {
         if (node1 == null || node2 == null) {
             return node1 == node2;
         }
@@ -52,7 +55,7 @@ public class JavaJudgeService implements JudgeService {
         for (Node child1 : node1.getChildNodes()) {
             boolean foundMatch = false;
             for (Node child2 : node2.getChildNodes()) {
-                if (judge(child1, child2)) {
+                if (analyse(child1, child2)) {
                     foundMatch = true;
                     break;
                 }
@@ -64,5 +67,14 @@ public class JavaJudgeService implements JudgeService {
         return true;
     }
 
+
+    public static void printAST(CompilationUnit cu) {
+        // 使用DotPrinter打印AST为DOT格式字符串
+        DotPrinter dotPrinter = new DotPrinter(true);
+        String dot = dotPrinter.output(cu);
+
+        // 打印DOT格式字符串
+        System.out.println(dot);
+    }
 
 }

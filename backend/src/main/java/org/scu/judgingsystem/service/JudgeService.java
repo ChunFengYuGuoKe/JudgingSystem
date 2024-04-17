@@ -2,13 +2,23 @@ package org.scu.judgingsystem.service;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import org.scu.judgingsystem.reulst.Result;
 
 import java.io.File;
+import java.util.Map;
 
-public interface JudgeService {
-    // 生成AST
-    public CompilationUnit parse(File sourceCode);
+public abstract class JudgeService {
+    // 生成AST，
+    public abstract CompilationUnit parse(File sourceCode);
 
     // 打印AST
-    public boolean judge(Node node1, Node node2);
+    public abstract boolean analyse(Node node1, Node node2);
+
+    // 模板方法
+    public Result<Map<String, String>> judge(File sourceCode, CompilationUnit indicativeAST) {
+        CompilationUnit ast = parse(sourceCode);
+
+        analyse(ast, indicativeAST);
+        return null;
+    }
 }
