@@ -690,7 +690,7 @@
 
 | 名称     | 类型   | 是否必须 | 备注                      |
 | -------- | ------ | -------- | ------------------------- |
-| username | string | 必须     | 用户名                    |
+| user_id  | string | 必须     | 用户名                    |
 | password | string | 必须     | 密码                      |
 | identity | int    | 必须     | 登录身份, 1 学生； 2 教师 |
 
@@ -698,7 +698,7 @@
 
 ```json
 {
-	"username": "jinyong",
+	"user_id": "jinyong",
     "password": "123456",
     "identity": "1"
 }
