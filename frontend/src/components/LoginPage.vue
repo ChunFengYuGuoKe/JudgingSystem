@@ -51,7 +51,7 @@
                 </el-col>
                 <el-col :span="12">
                     <div class="form-group">
-                        <el-select v-model="formData.identity" placeholder="select" size="large" style="width: 80%">
+                        <el-select v-model="formData.identity" placeholder="Select" size="large" style="width: 80%">
                             <el-option v-for="item in options" :key="item.value" :label="item.label"
                                 :value="item.value" />
                         </el-select>
@@ -108,7 +108,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     computed: {
-        ...mapGetters('ip', ['loginIP']),
+        ...mapGetters('ip', ['loginIP', 'pluginsIP']),
     },
     data() {
         return {
@@ -124,7 +124,39 @@ export default {
         };
     },
     methods: {
-        ...mapActions('user', ['loginUser', 'logoutUser']),
+        ...mapActions('user', ['loginUser']),
+        ...mapActions('language', ['setPlugins']),
+        getPlugin() {
+            console.log('调用getPlugin方法设置插件');
+            fetch(this.pluginsIP, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // 处理成功响应
+                        console.log('成功响应');
+
+                        return response.json(); // 返回一个 Promise，解析后得到 JSON 数据
+                    } else {
+                        // 处理失败响应
+                        console.log('失败响应：', response);
+
+                        throw new Error('Network response was not ok.');
+                    }
+                })
+                .then(data => {
+                    this.setPlugins({
+                        payload: data.data
+                    });
+                })
+                .catch(error => {
+                    // 处理请求错误
+                    console.log('出现错误' + error);
+                });
+        },
         login() {
             // 处理按钮点击事件的代码
             console.log('按钮被点击了！');
@@ -162,7 +194,7 @@ export default {
                         jwt: data.data
                     });
                     // console.log(this.formData.user_id, this.formData.identity, data.data);
-                    
+                    this.getPlugin();
                 })
                 .catch(error => {
                     // 处理请求错误

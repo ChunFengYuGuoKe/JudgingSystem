@@ -36,6 +36,7 @@ const actions = {
     }) {
         // 提交 mutation 清除用户信息
         commit('clearUser');
+        router.push('/login');
     }
 };
 

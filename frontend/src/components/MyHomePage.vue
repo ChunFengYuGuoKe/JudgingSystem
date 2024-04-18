@@ -9,7 +9,9 @@
                 <el-aside width="200px">
                     <MyAside />
                 </el-aside>
-                <el-main>Main</el-main>
+                <el-main>
+                    <component :is="selectedComponent"></component>
+                </el-main>
             </el-container>
         </el-container>
     </div>
@@ -19,10 +21,29 @@
 <style scoped></style>
 
 <script>
+import { mapState } from 'vuex';
 import MyHeader from '@/components/MyHeader.vue';
 import MyAside from '@/components/MyAside.vue'
+import MyProblems from './MyProblems.vue';
+import MySubmission from './MySubmission.vue';
+import MyClasses from './MyClasses.vue';
 
 export default {
+    computed: {
+        ...mapState('menu', ['selectedMenuItemIndex']),
+        selectedComponent() {
+            switch (this.selectedMenuItemIndex) {
+                case 1:
+                    return MyProblems; // 题目列表组件
+                case 2:
+                    return MySubmission; // 提交记录组件
+                case 3:
+                    return MyClasses; // 班级列表组件
+                default:
+                    return null;
+            }
+        }
+    },
     components: {
         MyHeader,
         MyAside

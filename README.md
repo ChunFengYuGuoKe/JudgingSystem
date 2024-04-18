@@ -39,8 +39,6 @@
    npm install -g serve
    ```
 
-   环境不同可能还需要安装 `vuex` 依赖
-
 3. **配置信息**
 
    在 `src/store/modules/ipModule.js`中修改 `localhost:8081` 为实际监听的端口

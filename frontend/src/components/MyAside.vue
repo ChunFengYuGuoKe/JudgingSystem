@@ -2,31 +2,28 @@
     <div>
         <el-menu class="MyMenu" active-text-color="#409eff" background-color="#ffffff" text-color="#303133"
             default-active="1">
-            <el-menu-item index="1">
-                <span>题目列表</span>
+            <el-menu-item index="1" @click="this.setSelectedMenuItemIndex(1)">
+                题目列表
             </el-menu-item>
-            <el-menu-item index="2">
-                <span>提交记录</span>
+            <el-menu-item index="2" @click="this.setSelectedMenuItemIndex(2)" v-if="this.identity === 1">
+                提交记录
             </el-menu-item>
-            <el-menu-item index="3">
-                <span>班级列表</span>
+            <el-menu-item index="3" @click="this.setSelectedMenuItemIndex(3)" v-if="this.identity === 2">
+                班级列表
             </el-menu-item>
         </el-menu>
     </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
     computed: {
         ...mapState('user', ['identity']),
-        isStudent() {
-            return this.identity === 'student';
-        }
     },
-    created() {
-        console.log(this.identity);
+    methods: {
+        ...mapMutations('menu', ['setSelectedMenuItemIndex']),
     }
 };
 </script>
