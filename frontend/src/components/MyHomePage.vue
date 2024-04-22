@@ -9,7 +9,7 @@
                 <el-aside width="200px">
                     <MyAside />
                 </el-aside>
-                <el-main>
+                <el-main style="margin: 0%; padding: 0%;">
                     <component :is="selectedComponent"></component>
                 </el-main>
             </el-container>

@@ -13,8 +13,9 @@
                 <span v-if="this.identity === 2">教师</span>
             </div>
 
-            <el-select v-model="selectedLanguage" @change="handleLanguageChange" placeholder="Select" style="width: 200px; margin-right: 20px;">
-                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+            <el-select v-model="selectedLanguageShow" @change="handleLanguageChange" placeholder="Select"
+                style="width: 200px; margin-right: 20px;">
+                <el-option v-for="item in this.languages" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
 
             <el-button type="danger" @click="logoutUser">退出</el-button>
@@ -62,28 +63,49 @@
 </style>
 
 <script>
-import { mapState, mapActions, mapMutations } from 'vuex';
+import { mapState, mapActions } from 'vuex';
+
 
 export default {
     computed: {
         ...mapState('user', ['username', 'identity']),
         ...mapState('language', ['selectedLanguage', 'languages']),
-        // ...mapGetters('language', ['getLanguages']),
-        options() {
-            return this.languages;
-        }
+        // options() {
+        //     return this.languages;
+        // }
+        // selectedLanguage:{
+        //     get(){
+        //         return this.selectedLanguage;
+        //     },
+        //     set(value){
+        //         // console.log("set value ", value);
+        //         this.setSelectedLanguage(value);
+        //         // console.log("what is this.$store: ", this.$store);
+        //         // this.$store.commit('setSelectedLanguage', value);
+                
+        //     },
+        // }
     },
     data() {
         return {
-            language: 1,
+            /**
+             * 这里可能有一个待修复的bug，如果设置值为 null,，而传入的插件中不存在值为 null 的选项可能会出现问题（即显示1）
+             * 原因主要是异步与同步的问题，查询插件是异步操作，而进入/homepage是同步操作
+             * 可能同步操作做完时，异步操作还没有结束，那么 selectedLanguageShow 在 created 钩子函数里也难以绑定正确的值
+             */
+            selectedLanguageShow: null, 
         };
     },
     methods: {
         ...mapActions('user', ['logoutUser']),
-        ...mapMutations('language', ['setSelectedLanguage']),
+        // ...mapMutations('language', ['setSelectedLanguage']),
+        ...mapActions('language', ['setSelectedLanguage']),
         handleLanguageChange(value) {
-            this.setSelectedLanguage(value); // 调用 mutation 更新状态
-        }
+            this.setSelectedLanguage(value); // 调用 action 更新状态
+        },
+        // updateLanguage(e) {
+        //     this.$store.commit('updateLanguage', e.target.value)
+        // }
     }
 }
 </script>

@@ -9,7 +9,7 @@ const state = {
 
 const mutations = {
     setUser(state, payload) { // 只能传一个payload值
-        console.log("修改属性", payload.username, payload.identity, payload.jwt);
+        // console.log("修改属性", payload.username, payload.identity, payload.jwt);
         state.username = payload.username;
         state.identity = payload.identity;
         state.jwt = payload.jwt;
@@ -27,7 +27,7 @@ const actions = {
     loginUser({
         commit
     }, username, identity, jwt) {
-        console.log("调用loginUser方法");
+        // console.log("调用loginUser方法");
         commit('setUser', username, identity, jwt);
         router.push('/homepage');
     },

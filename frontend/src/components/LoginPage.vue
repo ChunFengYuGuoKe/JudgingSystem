@@ -24,7 +24,7 @@
                 </el-col>
                 <el-col :span="12">
                     <div class="form-group">
-                        <el-input v-model="formData.user_id" style="width: 100%" placeholder="Please input" />
+                        <el-input v-model="formData.user_id" style="width: 100%" placeholder="Please input" id="user_id"/>
                     </div>
                 </el-col>
             </el-row>
@@ -38,7 +38,7 @@
                 <el-col :span="12">
                     <div class="form-group">
                         <el-input v-model="formData.password" style="width: 100%" type="password"
-                            placeholder="Please input password" show-password />
+                            placeholder="Please input password" show-password id="password"/>
                     </div>
                 </el-col>
             </el-row>
@@ -51,7 +51,7 @@
                 </el-col>
                 <el-col :span="12">
                     <div class="form-group">
-                        <el-select v-model="formData.identity" placeholder="Select" size="large" style="width: 80%">
+                        <el-select v-model="formData.identity" placeholder="Select" size="large" style="width: 80%" id="identity">
                             <el-option v-for="item in options" :key="item.value" :label="item.label"
                                 :value="item.value" />
                         </el-select>
@@ -125,9 +125,9 @@ export default {
     },
     methods: {
         ...mapActions('user', ['loginUser']),
-        ...mapActions('language', ['setPlugins']),
+        ...mapActions('language', ['setLanguages']),
         getPlugin() {
-            console.log('调用getPlugin方法设置插件');
+            // console.log('调用getPlugin方法设置插件');
             fetch(this.pluginsIP, {
                 method: 'GET',
                 headers: {
@@ -137,20 +137,18 @@ export default {
                 .then(response => {
                     if (response.ok) {
                         // 处理成功响应
-                        console.log('成功响应');
+                        // console.log('成功响应');
 
                         return response.json(); // 返回一个 Promise，解析后得到 JSON 数据
                     } else {
                         // 处理失败响应
-                        console.log('失败响应：', response);
+                        // console.log('失败响应：', response);
 
                         throw new Error('Network response was not ok.');
                     }
                 })
                 .then(data => {
-                    this.setPlugins({
-                        payload: data.data
-                    });
+                    this.setLanguages(data.data);
                 })
                 .catch(error => {
                     // 处理请求错误
@@ -159,9 +157,9 @@ export default {
         },
         login() {
             // 处理按钮点击事件的代码
-            console.log('按钮被点击了！');
-            console.log('后端服务器地址:' + this.$store.state.ip.backendIP);
-            console.log('访问地址:' + this.loginIP);
+            // console.log('按钮被点击了！');
+            // console.log('后端服务器地址:' + this.$store.state.ip.backendIP);
+            // console.log('访问地址:' + this.loginIP);
 
             // 使用 fetch 或 axios 发送 POST 请求到指定的 URL 地址
             fetch(this.loginIP, {
@@ -175,12 +173,12 @@ export default {
                 .then(response => {
                     if (response.ok) {
                         // 处理成功响应
-                        console.log('成功响应');
+                        // console.log('成功响应');
 
                         return response.json(); // 返回一个 Promise，解析后得到 JSON 数据
                     } else {
                         // 处理失败响应
-                        console.log('失败响应：', response);
+                        // console.log('失败响应：', response);
 
                         throw new Error('Network response was not ok.');
                     }
