@@ -8,8 +8,17 @@ const mutations = {
     }
 };
 
+const actions = {
+    setSelectedMenuItemIndex({
+        commit
+    }, payload) {
+        commit('setSelectedMenuItemIndex', payload);
+    },
+}
+
 export default {
     namespaced: true,
     state,
     mutations,
+    actions
 }

@@ -9,8 +9,8 @@
             <div class="user-info">
                 <span style="margin-right: 20px;"> 欢迎您：{{ this.username }} </span>
                 <span> 登录身份：</span>
-                <span v-if="this.identity === 1">学生</span>
-                <span v-if="this.identity === 2">教师</span>
+                <span v-if="this.identity === 0">学生</span>
+                <span v-if="this.identity === 1">教师</span>
             </div>
 
             <el-select v-model="selectedLanguageShow" @change="handleLanguageChange" placeholder="Select"
@@ -70,21 +70,6 @@ export default {
     computed: {
         ...mapState('user', ['username', 'identity']),
         ...mapState('language', ['selectedLanguage', 'languages']),
-        // options() {
-        //     return this.languages;
-        // }
-        // selectedLanguage:{
-        //     get(){
-        //         return this.selectedLanguage;
-        //     },
-        //     set(value){
-        //         // console.log("set value ", value);
-        //         this.setSelectedLanguage(value);
-        //         // console.log("what is this.$store: ", this.$store);
-        //         // this.$store.commit('setSelectedLanguage', value);
-                
-        //     },
-        // }
     },
     data() {
         return {
@@ -93,19 +78,15 @@ export default {
              * 原因主要是异步与同步的问题，查询插件是异步操作，而进入/homepage是同步操作
              * 可能同步操作做完时，异步操作还没有结束，那么 selectedLanguageShow 在 created 钩子函数里也难以绑定正确的值
              */
-            selectedLanguageShow: null, 
+            selectedLanguageShow: null,
         };
     },
     methods: {
         ...mapActions('user', ['logoutUser']),
-        // ...mapMutations('language', ['setSelectedLanguage']),
         ...mapActions('language', ['setSelectedLanguage']),
         handleLanguageChange(value) {
             this.setSelectedLanguage(value); // 调用 action 更新状态
         },
-        // updateLanguage(e) {
-        //     this.$store.commit('updateLanguage', e.target.value)
-        // }
     }
 }
 </script>

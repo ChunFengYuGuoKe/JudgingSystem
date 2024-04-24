@@ -22,11 +22,12 @@
 
 <script>
 import { mapState } from 'vuex';
-import MyHeader from '@/components/MyHeader.vue';
-import MyAside from '@/components/MyAside.vue'
+import MyHeader from './MyHeader.vue';
+import MyAside from './MyAside.vue'
 import MyProblems from './MyProblems.vue';
 import MySubmission from './MySubmission.vue';
 import MyClasses from './MyClasses.vue';
+import MyRank from './MyRank.vue'
 
 export default {
     computed: {
@@ -39,6 +40,8 @@ export default {
                     return MySubmission; // 提交记录组件
                 case 3:
                     return MyClasses; // 班级列表组件
+                case 4:
+                    return MyRank; // 排行榜组件
                 default:
                     return null;
             }

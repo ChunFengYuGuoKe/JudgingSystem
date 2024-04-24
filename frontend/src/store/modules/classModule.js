@@ -1,24 +1,23 @@
 const state = {
-    problems: []
+    classes: []
 };
 
 const mutations = {
-    setProblems(state, payload) {
-        state.problems = payload;
+    setClasses(state, payload) {
+        state.classes = payload;
     },
 };
 
 const actions = {
-    setProblems({
+    setClasses({
         commit
     }, payload) {
-        // console.log('setProblems', payload);
-        commit('setProblems', payload);
+        commit('setClasses', payload);
     },
-    fetchProblems({
+    fetchClasses({
         commit
     }, payload) {
-        // console.log('fetchProblems:', payload);
+        console.log(payload);
         fetch(payload.url, {
                 method: 'GET',
                 headers: {
@@ -34,7 +33,7 @@ const actions = {
             })
             .then(data => {
                 if (data.code % 10 === 1) {
-                    commit('setProblems', data.data);
+                    commit('setClasses', data.data);
                 } else {
                     this.$message.error(data.msg);
                 }
@@ -42,11 +41,10 @@ const actions = {
             .catch(error => {
                 // 请求失败，处理错误
                 console.error('Error fetching data:', error);
-                commit('setProblems', null);
+                commit('setClasses', null);
             });
     }
-};
-
+}
 
 export default {
     namespaced: true,

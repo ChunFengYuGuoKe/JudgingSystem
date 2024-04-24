@@ -1,18 +1,28 @@
 <template>
     <el-table :data="problems" height="250" style="width: 100%" stripe max-height="250">
-        <el-table-column prop="id" label="题目编号" width="180" />
-        <el-table-column prop="title" label="题目标题" width="180" />
-        <el-table-column>
+        <el-table-column prop="id" label="题目编号" width="300" />
+        <el-table-column prop="title" label="题目标题" width="300" />
+        <el-table-column label="操作">
             <template #default="{ row }">
-                <el-button plain @click="click(row.id)">
+                <el-button plain @click="problemShow(row.id)">
                     详情
+                </el-button>
+                <el-button type="danger" @click="problemDelete(row.id)" v-if="this.identity === 1">
+                    删除题目
                 </el-button>
             </template>
         </el-table-column>
+        <el-table-column>
+            <template #header>
+                <el-button type="primary" @click="dialogAddVisible = true" v-if="this.identity === 1">
+                    新增题目
+                </el-button>
+            </template>
+        </el-table-column>
+
     </el-table>
 
-
-    <el-dialog v-model="dialogFormVisible" title="题目详情" width="800">
+    <el-dialog v-model="dialogProblemVisible" title="题目详情" width="800">
         <el-row>
             <el-col :span="12">
                 <div>
@@ -34,7 +44,7 @@
             </el-col>
         </el-row>
 
-        <el-form :model="form" :rules="rules" ref="formData">
+        <el-form :model="form" :rules="rules" ref="formData" v-if="this.identity === 0">
             <el-form-item label="代码提交" prop='code'>
                 <el-upload :action="''" :auto-upload="false" :show-file-list="true" :on-change="handleFileChange">
                     <el-button size="small" type="primary">选择文件</el-button>
@@ -44,13 +54,14 @@
 
         <template #footer>
             <div class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取消</el-button>
-                <el-button type="primary" @click="submitForm">提交</el-button>
+                <el-button @click="dialogProblemVisible = false">关闭</el-button>
+                <el-button type="primary" @click="submitForm" v-if="this.identity === 0">提交</el-button>
             </div>
         </template>
+
     </el-dialog>
 
-    <el-dialog v-model="dialogVisible" title="提交记录" width="800">
+    <el-dialog v-model="dialogSubmissionVisible" title="提交记录" width="800">
         <el-row>
             <el-col :span="12">
                 <div>
@@ -84,29 +95,66 @@
 
         <template #footer>
             <div class="dialog-footer">
-                <el-button @click="dialogVisible = false">关闭</el-button>
+                <el-button @click="dialogSubmissionVisible = false">关闭</el-button>
             </div>
         </template>
     </el-dialog>
+
+    <el-dialog v-model="dialogAddVisible" title="新增题目" width="800">
+        <el-form :model="form2" :rules="rules2" ref="formData2">
+            <el-form-item label="题目标题" prop="title">
+                <el-input v-model="form2.title" style="width: 240px" placeholder="Please input" />
+            </el-form-item>
+
+            <el-form-item label="题目内容" prop="description">
+                <el-input v-model="form2.description" style="width: 700px" :autosize="{ minRows: 10 }" type="textarea"
+                    placeholder="Please input" />
+            </el-form-item>
+
+
+            <el-form-item label="参考代码" prop='solution'>
+                <el-upload :action="''" :auto-upload="false" :show-file-list="true" :on-change="handleFileChange2">
+                    <el-button size="small" type="primary">选择文件</el-button>
+                </el-upload>
+            </el-form-item>
+
+            <el-form-item label="测试用例" prop='usecases'>
+                <el-upload :action="''" :auto-upload="false" :show-file-list="true" :on-change="handleFileChange3">
+                    <el-button size="small" type="primary">选择文件</el-button>
+                </el-upload>
+            </el-form-item>
+        </el-form>
+
+        <template #footer>
+            <div class="dialog-footer">
+                <el-button @click="dialogAddVisible = false">关闭</el-button>
+                <el-button type="primary" @click="submitForm2">提交</el-button>
+            </div>
+        </template>
+
+    </el-dialog>
+
+
 </template>
 
 <style></style>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
 
 export default {
     computed: {
-        ...mapState('user', ['username']),
+        ...mapState('user', ['username', 'identity']),
         ...mapState('language', ['selectedLanguage']),
         ...mapState('problem', ['problems']),
-        ...mapGetters('ip', ['homeworkIP', 'submitIP']),
+        ...mapGetters('ip', ['homeworkIP', 'submitIP', 'homeworkAddIP']),
     },
     data() {
         return {
-            dialogFormVisible: false,
-            dialogVisible: false,
+            dialogProblemVisible: false,
+            dialogSubmissionVisible: false,
+            dialogAddVisible: false,
             problem: {
                 id: null,
                 title: null,
@@ -118,6 +166,9 @@ export default {
                 id_lang: null,
                 code: null
             },
+            rules: {
+                code: [{ validator: this.validateFile, trigger: 'change' }]
+            },
             submission: {
                 id: null,
                 title: null,
@@ -125,12 +176,31 @@ export default {
                 white: null,
                 score: null
             },
-            rules: {
-                code: [{ validator: this.validateFile, trigger: 'change' }]
-            }
+            form2: {
+                title: null,
+                description: null,
+                language: this.selectedLanguage,
+                solution: null,
+                usecases: null,
+            },
+            rules2: {
+                title: [
+                    { required: true, message: '请输入题目标题', trigger: 'blur' },
+                ],
+                description: [
+                    { required: true, message: '请输入题目内容', trigger: 'blur' },
+                ],
+                solution: [
+                    { validator: this.validateFile, trigger: 'change' }
+                ],
+                usecases: [
+                    { validator: this.validateFile, trigger: 'change' }
+                ],
+            },
         }
     },
     methods: {
+        ...mapActions('problem', ['fetchProblems']),
         validateFile(rule, value, callback) {
             if (value === null) {
                 callback(new Error('请选择文件'));
@@ -138,7 +208,16 @@ export default {
                 callback(); // 校验通过
             }
         },
-        click(id) {
+        handleFileChange(file) {
+            this.form.code = file.raw; // 存储用户选择的文件
+        },
+        handleFileChange2(file) {
+            this.form2.solution = file.raw; // 存储用户选择的文件
+        },
+        handleFileChange3(file) {
+            this.form2.usecases = file.raw; // 存储用户选择的文件
+        },
+        problemShow(id) {
             // console.log('访问url', `${this.homeworkIP}/${this.selectedLanguage}/${id}`);
             fetch(`${this.homeworkIP}/${this.selectedLanguage}/${id}`, {
                 method: 'GET',
@@ -147,27 +226,29 @@ export default {
                 },
             })
                 .then(response => {
-                    return response.json(); // 返回一个 Promise，解析后得到 JSON 数据
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
                 })
                 .then(data => {
-                    // console.log("赋值操作给tableData:", data.data);
-                    // commit('setProblems', data.data);
-                    // console.log('data:', data.data[0]);
-                    this.problem = data.data[0];
-
-                    this.form.id_homework = this.problem.id;
-                    this.form.id_lang = this.selectedLanguage;
-                    this.form.id_stu = this.username;
+                    if (data.code % 10 === 1) {
+                        this.problem = data.data;
+                        this.form.id_homework = this.problem.id;
+                        this.form.id_lang = this.selectedLanguage;
+                        this.form.id_stu = this.username;
+                        this.dialogProblemVisible = true;
+                    } else {
+                        this.$message.error(data.msg);
+                    }
                 })
                 .catch(error => {
                     // 请求失败，处理错误
-                    console.error('Error fetching data:', error);
+                    this.$message.error('出现错误' + error);
                 });
-            this.dialogFormVisible = true;
         },
-        handleFileChange(file) {
-            this.form.code = file.raw; // 存储用户选择的文件
-        },
+
         submissionShow(id) {
             fetch(`${this.submitIP}/${id}`, {
                 method: 'GET',
@@ -176,24 +257,28 @@ export default {
                     if (response.ok) {
                         return response.json();
                     } else {
-                        console.error('失败');
+                        throw new Error('Network response was not ok.');
                     }
                 })
                 .then(data => {
                     // 处理服务器返回的数据
-                    console.log('服务器返回的数据:', data.data[0]);
-                    this.dialogVisible = true;
-                    this.submission = data.data[0];
+                    if (data.code % 10 === 1) {
+                        this.dialogSubmissionVisible = true;
+                        this.submission = data.data;
+                    } else {
+                        this.$message.error(data.msg);
+                    }
                 })
                 .catch(error => {
-                    console.error('发生错误:', error);
+                    this.$message.error('出现错误' + error);
                 });
         },
+
         submitForm() {
             // console.log('触发提交表单按钮');
             this.$refs.formData.validate(valid => {
                 if (valid) {
-                    this.dialogFormVisible = false;
+                    this.dialogProblemVisible = false;
                     // console.log('发送表单：', this.form);
 
                     // 发送 POST 请求
@@ -202,32 +287,131 @@ export default {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         },
-                        body: this.form
+                        body: JSON.stringify(this.form),
                     })
                         .then(response => {
                             if (response.ok) {
                                 // 处理上传成功的逻辑
-                                console.log('文件上传成功');
+                                // console.log('文件上传成功');
+
                                 return response.json();
                             } else {
                                 // 处理上传失败的逻辑
-                                console.error('文件上传失败');
+                                throw new Error('Network response was not ok.');
                             }
                         })
                         .then(data => {
                             // 处理服务器返回的数据
-                            console.log('服务器返回的数据:', data.data[0].id);
-                            this.submissionShow(data.data[0].id);
+
+                            if (data.code % 10 === 1) {
+                                this.$message({
+                                    message: '提交成功',
+                                    type: 'success',
+                                })
+                                // console.log('服务器返回的数据:', data.data[0].id);
+                                this.submissionShow(data.data.id);
+                            }
+                            else {
+                                this.$message.error('Oops, this is a error message.\n' + data.msg);
+                            }
                         })
                         .catch(error => {
-                            console.error('发生错误:', error);
+                            // console.error('发生错误:', error);
+                            this.$message.error('出现错误' + error);
                         });
                 } else {
-                    console.error('表单验证失败');
+                    this.$message.error('表单验证失败');
                     return false;
                 }
             });
-        }
+        },
+
+        submitForm2() {
+            // console.log('触发提交表单按钮');
+            this.$refs.formData2.validate(valid => {
+                if (valid) {
+                    this.dialogAddVisible = false;
+                    console.log('发送表单：', this.form2);
+
+                    // 发送 POST 请求
+                    fetch(this.homeworkAddIP, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        },
+                        body: JSON.stringify(this.form2)
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                // 处理上传成功的逻辑
+                                // console.log('文件上传成功');
+
+                                return response.json();
+                            } else {
+                                // 处理上传失败的逻辑
+                                throw new Error('Network response was not ok.');
+                            }
+                        })
+                        .then(data => {
+                            // 处理服务器返回的数据
+
+                            if (data.code % 10 === 1) {
+                                this.$message({
+                                    message: '提交成功',
+                                    type: 'success',
+                                })
+                                this.fetchProblems({
+                                    url: `${this.homeworkIP}/${this.selectedLanguage}`,
+                                });
+                            }
+                            else {
+                                this.$message.error('Oops, this is a error message.\n' + data.msg);
+                            }
+                        })
+                        .catch(error => {
+                            // console.error('发生错误:', error);
+                            this.$message.error('出现错误' + error);
+                        });
+                } else {
+                    this.$message.error('表单验证失败');
+                    return false;
+                }
+            });
+        },
+
+        problemDelete(id) {
+            // console.log('访问url', `${this.homeworkIP}/${id}`);
+            fetch(`${this.homeworkIP}/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
+                })
+                .then(data => {
+                    if (data.code % 10 === 1) {
+                        this.$message({
+                            message: '成功删除',
+                            type: 'success',
+                        });
+                        this.fetchProblems({
+                            url: `${this.homeworkIP}/${this.selectedLanguage}`,
+                        });
+                    } else {
+                        this.$message.error(data.msg);
+                    }
+                })
+                .catch(error => {
+                    // 请求失败，处理错误
+                    this.$message.error('出现错误' + error);
+                });
+        },
     }
 }
 </script>

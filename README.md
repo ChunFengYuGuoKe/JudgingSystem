@@ -41,12 +41,12 @@
 
 3. **配置信息**
 
-   在 `src/store/modules/ipModule.js`中修改 `localhost:8081` 为实际监听的端口
+   在 `vue.config.js`中修改 `proxy` 为实际监听的端口
 
    ```js
-   const state = {
-       backendIP: 'http://localhost:8081',
-   };
+   devServer: {
+       proxy: 'http://10.135.40.221:8081'
+     }
    ```
 
 4. **编译项目：** 一般来说，您可以运行以下命令来编译Vue项目：
@@ -69,5 +69,5 @@
    serve -s dist
    ```
 
-   这将在本地启动一个HTTP服务器，并将编译后的静态文件提供给客户端访问。您可以在浏览器中输入 `http://localhost:3000`（或者您指定的端口）来访问运行中的Vue项目。
+   这将在本地启动一个HTTP服务器，并将编译后的静态文件提供给客户端访问。
 

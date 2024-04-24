@@ -1,11 +1,11 @@
 <template>
     <el-table :data="submissions" height="250" style="width: 100%" stripe max-height="250">
-        <el-table-column prop="id_submit" label="提交编号" width="180" />
-        <el-table-column prop="title" label="题目标题" width="180" />
-        <el-table-column prop="score" label="分数" width="180" />
-        <el-table-column>
+        <el-table-column prop="id_submit" label="提交编号" width="300" />
+        <el-table-column prop="title" label="题目标题" width="300" />
+        <el-table-column prop="score" label="分数" width="300" />
+        <el-table-column label="操作">
             <template #default="{ row }">
-                <el-button plain @click="click(row.id_submit)">
+                <el-button plain @click="submissionShow(row.id_submit)">
                     详情
                 </el-button>
             </template>
@@ -75,8 +75,7 @@ export default {
         }
     },
     methods: {
-        click(id) {
-            // console.log(id);
+        submissionShow(id) {
             fetch(`${this.submitIP}/${id}`, {
                 method: 'GET',
             })
@@ -84,18 +83,21 @@ export default {
                     if (response.ok) {
                         return response.json();
                     } else {
-                        console.error('失败');
+                        throw new Error('Network response was not ok.');
                     }
                 })
                 .then(data => {
                     // 处理服务器返回的数据
                     // console.log('服务器返回的数据:', data.data[0]);
-                    this.dialogVisible = true;
-                    this.submission = data.data[0];
-                    this.dialogFormVisible = true;
+                    if (data.code % 10 === 1) {
+                        this.dialogVisible = true;
+                        this.submission = data.data;
+                    } else {
+                        this.$message.error(data.msg);
+                    }
                 })
                 .catch(error => {
-                    console.error('发生错误:', error);
+                    this.$message.error('出现错误' + error);
                 });
         },
     }

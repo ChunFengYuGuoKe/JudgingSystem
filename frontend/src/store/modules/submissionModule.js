@@ -25,10 +25,18 @@ const actions = {
                 },
             })
             .then(response => {
-                return response.json(); // 返回一个 Promise，解析后得到 JSON 数据
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Network response was not ok.');
+                }
             })
             .then(data => {
-                commit('setSubmissions', data.data);
+                if (data.code % 10 === 1) {
+                    commit('setSubmissions', data.data);
+                } else {
+                    this.$message.error(data.msg);
+                }
             })
             .catch(error => {
                 // 请求失败，处理错误

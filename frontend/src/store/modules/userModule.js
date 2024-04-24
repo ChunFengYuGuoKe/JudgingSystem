@@ -20,6 +20,12 @@ const mutations = {
         state.identity = null;
         state.jwt = null;
         state.isLoggedIn = false;
+
+        // 这里可能有一堆Bug，账户登录后退出没想出合理的方法清理残留信息
+        this.dispatch('menu/setSelectedMenuItemIndex', 1);
+        this.dispatch('problem/setProblems', null);
+        // this.dispatch('language/setLanguages', null);
+        
     }
 };
 
