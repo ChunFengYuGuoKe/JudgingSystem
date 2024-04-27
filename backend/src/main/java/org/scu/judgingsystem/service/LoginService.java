@@ -1,7 +1,9 @@
 package org.scu.judgingsystem.service;
 
 import org.scu.judgingsystem.pojo.User;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public interface LoginService {
     /**
      * 登录验证
