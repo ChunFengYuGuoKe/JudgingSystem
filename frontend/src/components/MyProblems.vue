@@ -145,7 +145,7 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
     computed: {
-        ...mapState('user', ['username', 'identity']),
+        ...mapState('user', ['username', 'identity', 'jwt']),
         ...mapState('language', ['selectedLanguage']),
         ...mapState('problem', ['problems']),
         ...mapGetters('ip', ['homeworkIP', 'submitIP', 'homeworkAddIP']),
@@ -285,7 +285,8 @@ export default {
                     fetch(this.submitIP, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'multipart/form-data'
+                            'Content-Type': 'multipart/form-data',
+                            'Authorization': `Bearer ${this.jwt}`,
                         },
                         body: JSON.stringify(this.form),
                     })
@@ -337,7 +338,8 @@ export default {
                     fetch(this.homeworkAddIP, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'multipart/form-data'
+                            'Content-Type': 'multipart/form-data',
+                            'Authorization': `Bearer ${this.jwt}`,
                         },
                         body: JSON.stringify(this.form2)
                     })
@@ -384,7 +386,8 @@ export default {
             fetch(`${this.homeworkIP}/${id}`, {
                 method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.jwt}`,
                 },
             })
                 .then(response => {

@@ -509,7 +509,7 @@
 | msg      | string   | 非必须   |        | 提示信息         |          |
 | data     | object[] | 非必须   |        | 返回的数据       |          |
 | \|-id    | string   | 必须     |        | 学生id           |          |
-| \|-class | string   | 必须     |        | 学生班级         |          |
+| \|-clazz | string   | 必须     |        | 学生班级         |          |
 | \|-score | int      | 必须     |        | 所有题目得分总分 |          |
 
 响应数据样例：
