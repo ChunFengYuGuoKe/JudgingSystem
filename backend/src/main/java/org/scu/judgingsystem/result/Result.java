@@ -1,4 +1,4 @@
-package org.scu.judgingsystem.reulst;
+package org.scu.judgingsystem.result;
 
 import lombok.Data;
 

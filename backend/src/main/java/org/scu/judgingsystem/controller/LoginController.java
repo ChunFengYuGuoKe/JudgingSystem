@@ -1,7 +1,7 @@
 package org.scu.judgingsystem.controller;
 
 import org.scu.judgingsystem.pojo.User;
-import org.scu.judgingsystem.reulst.Result;
+import org.scu.judgingsystem.result.Result;
 import org.scu.judgingsystem.service.LoginService;
 import org.scu.judgingsystem.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;

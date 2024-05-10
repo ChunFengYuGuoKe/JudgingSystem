@@ -2,7 +2,6 @@ package org.scu.judgingsystem;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.junit.jupiter.api.Test;
-import org.scu.judgingsystem.reulst.Result;
 import org.scu.judgingsystem.utils.JwtUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 
