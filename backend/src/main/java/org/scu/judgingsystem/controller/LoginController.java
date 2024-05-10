@@ -20,7 +20,7 @@ public class LoginController {
     @PostMapping("/login")
     public Result<String> login(@RequestBody User user) {
         //调用业务层：登录功能
-        System.out.println(user);
+        // System.out.println(user);
         User loginUser = loginService.login(user);
 
         //判断：登录用户是否存在

@@ -15,13 +15,13 @@
         <el-table :data="students" height="250" style="width: 100%" stripe max-height="250">
             <el-table-column prop="id" label="学生编号" width="300" />
             <el-table-column prop="score" label="平均分数" width="300" />
-            <el-table-column label="操作">
+            <!-- <el-table-column label="操作">
                 <template #default="{ row }">
                     <el-button plain @click="studentShow(row.id)">
                         详情
                     </el-button>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
         </el-table>
     </el-dialog>
 
@@ -58,7 +58,7 @@ export default {
     methods: {
         classShow(id) {
             // console.log(id);
-            fetch(`${this.classIP}/${this.username}/${id}`, {
+            fetch(`${this.studentIP}/${id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -87,7 +87,7 @@ export default {
 
         studentShow(id_stu) {
             // console.log('展示学生信息，访问url:', `${this.studentIP}/${id_class}/${id_stu}`);
-            fetch(`${this.studentIP}/${id_stu}/${this.selectedLanguage}`, {
+            fetch(`${this.submitIP}/${id_stu}/${this.selectedLanguage}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'

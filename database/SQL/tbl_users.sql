@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 23/04/2024 11:19:45
+ Date: 27/04/2024 17:34:28
 */
 
 SET NAMES utf8mb4;
@@ -41,5 +41,6 @@ CREATE TABLE `tbl_users`  (
 INSERT INTO `tbl_users` VALUES (1, '2021141410001', '123456', 1, '张三', NULL, '123@scu.edu.cn');
 INSERT INTO `tbl_users` VALUES (2, '2021141420001', '123456', 0, '李四', '2110101', NULL);
 INSERT INTO `tbl_users` VALUES (3, '2021141420002', '123456', 0, '王五', '2110101', NULL);
+INSERT INTO `tbl_users` VALUES (4, '2021141420003', '123456', 0, 'Michael', '2110102', '666@gmail.com');
 
 SET FOREIGN_KEY_CHECKS = 1;

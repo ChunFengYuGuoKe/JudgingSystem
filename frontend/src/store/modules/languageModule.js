@@ -60,13 +60,9 @@ const actions = {
             this.dispatch('submission/fetchSubmissions', {
                 url: `${rootGetters['ip/submitIP']}/${rootState.user.username}/${payload}`,
             });
-        } else if (rootState.user.identity === 1) {
-            this.dispatch('class/fetchClasses', {
-                url: `${rootGetters['ip/classIP']}/${rootState.user.username}/${payload}`,
-            });
         }
         this.dispatch('rank/fetchRanks', {
-            url: `${rootGetters['ip/rankIP']}/${payload}`,
+            url: `${rootGetters['ip/submitIP']}/rank/${payload}`,
         })
     },
 };
