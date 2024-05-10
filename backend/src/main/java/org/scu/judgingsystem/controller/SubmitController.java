@@ -2,7 +2,7 @@ package org.scu.judgingsystem.controller;
 
 import org.scu.judgingsystem.pojo.Ranking;
 import org.scu.judgingsystem.pojo.Record;
-import org.scu.judgingsystem.reulst.Result;
+import org.scu.judgingsystem.result.Result;
 import org.scu.judgingsystem.service.SubmitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

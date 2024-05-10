@@ -5,8 +5,10 @@ import com.github.javaparser.ast.body.AnnotationDeclaration;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.visitor.GenericVisitorAdapter;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONUtil;
 import org.junit.jupiter.api.Test;
+import org.scu.judgingsystem.result.black_box_result.BlackBoxResult;
 import org.scu.judgingsystem.service.JudgeService;
 import org.scu.judgingsystem.service.imp.JavaJudgeService;
 import org.scu.judgingsystem.service_creator.JudgeServiceCreator;
@@ -16,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.File;
 
 @SpringBootTest
+@Slf4j
 class JudgingSystemApplicationTests {
 
     private JudgeService judgeService;
@@ -43,7 +46,8 @@ class JudgingSystemApplicationTests {
     void testBlackBox() {
         String path = JavaJudgeService.getPath();
         File file = new File(path);
-        judgeService.blackBoxTest(file);
+        BlackBoxResult blackBoxResult = judgeService.blackBoxTest(file);
+        log.info(blackBoxResult.getReturnVal().toString());
     }
 
     @Test
