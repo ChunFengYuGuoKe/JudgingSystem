@@ -14,7 +14,7 @@
         </el-table-column>
         <el-table-column>
             <template #header>
-                <el-button type="primary" @click="dialogAddVisible = true" v-if="this.identity === 1">
+                <el-button type="primary" @click="addShow" v-if="this.identity === 1">
                     新增题目
                 </el-button>
             </template>
@@ -46,9 +46,11 @@
 
         <el-form :model="form" :rules="rules" ref="formData" v-if="this.identity === 0">
             <el-form-item label="代码提交" prop='code'>
-                <el-upload :action="''" :auto-upload="false" :show-file-list="true" :on-change="handleFileChange">
+                <el-upload :action="''" :auto-upload="false" :show-file-list="true" :on-change="handleFileChange"
+                    :limit="1">
                     <el-button size="small" type="primary">选择文件</el-button>
                 </el-upload>
+                <!-- <input type="file" ref="fileInput" @change="handleFileChange"> -->
             </el-form-item>
         </el-form>
 
@@ -161,9 +163,9 @@ export default {
                 description: null,
             },
             form: {
-                id_stu: null,
-                id_homework: null,
-                id_lang: null,
+                username: null,
+                homework: null,
+                language: null,
                 code: null
             },
             rules: {
@@ -179,7 +181,7 @@ export default {
             form2: {
                 title: null,
                 description: null,
-                language: this.selectedLanguage,
+                language: null,
                 solution: null,
                 usecases: null,
             },
@@ -208,8 +210,16 @@ export default {
                 callback(); // 校验通过
             }
         },
+        readFileContent(file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                console.log('File Content:', event.target.result);
+            };
+            reader.readAsText(file);
+        },
         handleFileChange(file) {
             this.form.code = file.raw; // 存储用户选择的文件
+            // this.readFileContent(this.form.code);
         },
         handleFileChange2(file) {
             this.form2.solution = file.raw; // 存储用户选择的文件
@@ -217,6 +227,12 @@ export default {
         handleFileChange3(file) {
             this.form2.usecases = file.raw; // 存储用户选择的文件
         },
+
+        addShow() {
+            this.dialogAddVisible = true;
+            this.form2.language = this.selectedLanguage;
+        },
+
         problemShow(id) {
             // console.log('访问url', `${this.homeworkIP}/${this.selectedLanguage}/${id}`);
             fetch(`${this.homeworkIP}/${this.selectedLanguage}/${id}`, {
@@ -235,9 +251,9 @@ export default {
                 .then(data => {
                     if (data.code % 10 === 1) {
                         this.problem = data.data;
-                        this.form.id_homework = this.problem.id;
-                        this.form.id_lang = this.selectedLanguage;
-                        this.form.id_stu = this.username;
+                        this.form.homework = this.problem.id;
+                        this.form.language = this.selectedLanguage;
+                        this.form.username = this.username;
                         this.dialogProblemVisible = true;
                     } else {
                         this.$message.error(data.msg);
@@ -281,6 +297,12 @@ export default {
                     this.dialogProblemVisible = false;
                     // console.log('发送表单：', this.form);
 
+                    const formData_tmp = new FormData();
+                    formData_tmp.append('code', this.form.code);
+                    formData_tmp.append('username', this.form.username);
+                    formData_tmp.append('homework', this.form.homework);
+                    formData_tmp.append('language', this.form.language);
+
                     // 发送 POST 请求
                     fetch(this.submitIP, {
                         method: 'POST',
@@ -288,7 +310,7 @@ export default {
                             'Content-Type': 'multipart/form-data',
                             'Authorization': `Bearer ${this.jwt}`,
                         },
-                        body: JSON.stringify(this.form),
+                        body: formData_tmp
                     })
                         .then(response => {
                             if (response.ok) {
@@ -334,6 +356,13 @@ export default {
                     this.dialogAddVisible = false;
                     console.log('发送表单：', this.form2);
 
+                    const formData_tmp = new FormData();
+                    formData_tmp.append('title', this.form2.title);
+                    formData_tmp.append('description', this.form2.description);
+                    formData_tmp.append('language', this.form2.language);
+                    formData_tmp.append('solution', this.form2.solution);
+                    formData_tmp.append('usecases', this.form2.usecases);
+
                     // 发送 POST 请求
                     fetch(this.homeworkAddIP, {
                         method: 'POST',
@@ -341,7 +370,7 @@ export default {
                             'Content-Type': 'multipart/form-data',
                             'Authorization': `Bearer ${this.jwt}`,
                         },
-                        body: JSON.stringify(this.form2)
+                        body: formData_tmp
                     })
                         .then(response => {
                             if (response.ok) {

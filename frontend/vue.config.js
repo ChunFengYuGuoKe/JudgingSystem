@@ -11,6 +11,7 @@ module.exports = {
     })
   },
   devServer: {
-    proxy: 'http://10.135.41.79:8081'
+    proxy: 'http://10.133.224.37:8081'
+    // proxy: 'http://172.17.55.197:8081'
   }
 }
