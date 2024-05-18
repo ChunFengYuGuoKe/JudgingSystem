@@ -12,6 +12,7 @@
                 </el-button>
             </template>
         </el-table-column>
+        
         <el-table-column>
             <template #header>
                 <el-button type="primary" @click="addShow" v-if="this.identity === 1">
