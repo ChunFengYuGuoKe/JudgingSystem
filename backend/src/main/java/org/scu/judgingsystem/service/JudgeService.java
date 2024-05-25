@@ -3,6 +3,7 @@ package org.scu.judgingsystem.service;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import org.scu.judgingsystem.result.Result;
+import org.scu.judgingsystem.result.black_box_result.BlackBoxResult;
 
 import java.io.File;
 import java.util.Map;
@@ -21,4 +22,10 @@ public abstract class JudgeService {
         analyse(ast, indicativeAST);
         return null;
     }
+
+    /**
+     * 黑盒测试
+     * @param sourceCode 源代码文件对象
+     */
+    public abstract BlackBoxResult blackBoxTest(File sourceCode);
 }

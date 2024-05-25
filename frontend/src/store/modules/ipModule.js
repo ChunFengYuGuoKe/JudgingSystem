@@ -4,7 +4,7 @@ const getters = {
     homeworkIP: () => `/homework`,
     homeworkAddIP: () => `/homework/add`,
     submitIP: () => `/submits`,
-    classIP: () => `/classes`,
+    classIP: () => `/class`,
     studentIP: () => `/students`,
     rankIP: () => '/rank',
 };

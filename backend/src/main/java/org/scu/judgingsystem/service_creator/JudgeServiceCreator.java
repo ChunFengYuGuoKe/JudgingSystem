@@ -7,13 +7,17 @@ import org.scu.judgingsystem.service.JudgeService;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/**
+ * 判题工厂抽象类
+ */
 @Slf4j
 public abstract class JudgeServiceCreator {
 
+    // 抽象工厂方法
     public abstract JudgeService getJudgeService();
 
+    // 用于反射获取的方法名常量
     private static final String SINGLETON_METHOD_NAME = "getJudgeServiceCreator";
-
 
     /**
      * 获取具体creator
@@ -28,7 +32,7 @@ public abstract class JudgeServiceCreator {
         // 2.调用加载方法，创建JudgeServiceCreator
         JudgeServiceCreator judgeServiceCreator;
         try {
-            judgeServiceCreator = getCreatorObject(typeClassName.getClassName());
+            judgeServiceCreator = getCreatorObjectByReflect(typeClassName.getClassName());
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException |
                  InvocationTargetException e) {
             throw new RuntimeException(e);
@@ -44,20 +48,20 @@ public abstract class JudgeServiceCreator {
      * @param className 具体Creator全类名
      * @return creator
      */
-    private static JudgeServiceCreator getCreatorObject(String className) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        // 获取JudgeServiceCreator类加载器
+    private static JudgeServiceCreator getCreatorObjectByReflect(String className) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        // 1. 获取JudgeServiceCreator类加载器
         ClassLoader classLoader = JudgeServiceCreator.class.getClassLoader();
 
-        // 前类名
+        // 2. 前类名
         // String className = astProperties.getServiceFullName();
 
-        // 加载类
+        // 3. 加载类
         Class<?> clazz = classLoader.loadClass(className);
 
-        // 获取单例方法
+        // 4. 获取单例方法
         Method singletonMethod = clazz.getMethod(SINGLETON_METHOD_NAME);
 
-        // 创建类实例
+        // 5. 创建类实例
         Object instance = singletonMethod.invoke(null);
         log.info("JudgeServiceCreator————{}", instance.toString());
         return (JudgeServiceCreator) instance;

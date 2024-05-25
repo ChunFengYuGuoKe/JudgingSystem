@@ -1,11 +1,12 @@
 <template>
     <el-table :data="submissions" height="250" style="width: 100%" stripe max-height="250">
-        <el-table-column prop="id_submit" label="提交编号" width="300" />
-        <el-table-column prop="title" label="题目标题" width="300" />
-        <el-table-column prop="score" label="分数" width="300" />
+        <el-table-column prop="title" label="题目标题" width="250" />
+        <el-table-column prop="id" label="提交编号" width="250" />
+        <el-table-column prop="score" label="分数" width="250" />
+        <el-table-column prop="time" label="提交时间" width="250" />
         <el-table-column label="操作">
             <template #default="{ row }">
-                <el-button plain @click="submissionShow(row.id_submit)">
+                <el-button plain @click="submissionShow(row.id)">
                     详情
                 </el-button>
             </template>
@@ -66,11 +67,12 @@ export default {
         return {
             dialogVisible: false,
             submission: {
-                id: null,
                 title: null,
+                id: null,
                 black: null,
                 white: null,
-                score: null
+                score: null,
+                time: null
             },
         }
     },

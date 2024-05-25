@@ -54,11 +54,12 @@
 </style>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
     computed: {
-        ...mapGetters('ip', ['loginIP', 'pluginsIP']),
+        ...mapState('user', ['username']),
+        ...mapGetters('ip', ['loginIP', 'pluginsIP', 'classIP']),
     },
     data() {
         return {
@@ -80,6 +81,7 @@ export default {
     methods: {
         ...mapActions('user', ['loginUser']),
         ...mapActions('language', ['setLanguages']),
+        ...mapActions('class', ['fetchClasses']),
 
         getPlugin() {
             // console.log('调用getPlugin方法设置插件');
@@ -145,6 +147,11 @@ export default {
                                     identity: this.form.identity,
                                     jwt: data.data
                                 });
+                                if (this.form.identity == 1) {
+                                    this.fetchClasses({
+                                        url: `${this.classIP}/${this.username}`,
+                                    });
+                                }
                             } else {
                                 this.$message.error(data.msg);
                             }

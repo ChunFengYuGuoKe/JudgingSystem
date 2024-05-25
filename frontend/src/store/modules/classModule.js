@@ -17,7 +17,7 @@ const actions = {
     fetchClasses({
         commit
     }, payload) {
-        console.log(payload);
+        console.log(payload.url);
         fetch(payload.url, {
                 method: 'GET',
                 headers: {
