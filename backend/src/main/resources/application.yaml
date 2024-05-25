@@ -12,6 +12,14 @@ spring:
 server:
   port: 8081
 
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+file:
+  homework-dir: /homework
+  user-dir: /users
+
+#logging:
+#  level:
+#    org.springframework: DEBUG

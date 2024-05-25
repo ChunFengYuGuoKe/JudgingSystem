@@ -5,9 +5,7 @@ import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.printer.DotPrinter;
-import com.github.javaparser.printer.configuration.DefaultConfigurationOption;
 import lombok.Getter;
-import org.scu.judgingsystem.reulst.Result;
 import org.scu.judgingsystem.service.JudgeService;
 import org.springframework.stereotype.Service;
 

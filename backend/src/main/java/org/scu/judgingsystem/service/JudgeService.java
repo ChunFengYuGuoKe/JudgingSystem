@@ -2,7 +2,7 @@ package org.scu.judgingsystem.service;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
-import org.scu.judgingsystem.reulst.Result;
+import org.scu.judgingsystem.result.Result;
 
 import java.io.File;
 import java.util.Map;

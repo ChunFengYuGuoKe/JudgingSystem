@@ -2,7 +2,7 @@ package org.scu.judgingsystem.controller.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import org.scu.judgingsystem.reulst.Result;
+import org.scu.judgingsystem.result.Result;
 import org.scu.judgingsystem.utils.JwtUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
