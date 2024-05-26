@@ -6,6 +6,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ProjectExceptionAdvice {
+    @ExceptionHandler()
+    public Result doBusinessException(){
+        return Result.error("");
+    }
+
+    @ExceptionHandler()
+    public Result doSystemException(){
+        return Result.error("");
+    }
 
     @ExceptionHandler(Exception.class)
     public Result doException(){

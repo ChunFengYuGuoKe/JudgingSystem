@@ -1,4 +1,4 @@
-# JudgingSystem接口文档-V1.3
+# JudgingSystem接口文档-V1.4
 
 ## 1. 题库管理
 
@@ -40,7 +40,7 @@
 
 ```json
 {
-  "code": 200111,
+  "code": 1,
   "msg": "success",
   "data": [
       {
@@ -97,7 +97,7 @@
 
 ```json
 {
-    "code": 200121,
+    "code": 1,
     "msg": "success",
     "data": {
         "id": 1,
@@ -148,7 +148,7 @@
 
 ```json
 {
-    "code": 200131,
+    "code": 1,
     "msg": "success"
 }
 ```
@@ -190,7 +190,7 @@
 
 ```json
 {
-	"code": 200141,
+	"code": 1,
 	"msg": "success"
 }
 ```
@@ -237,7 +237,7 @@
 
 ```json
 {
-    "code": 200211,
+    "code": 1,
     "msg": "success",
     "data": [
         {
@@ -294,7 +294,7 @@
 
 ```json
 {
-    "code": 200311,
+    "code": 1,
     "msg": "success",
     "data": [
         {
@@ -346,7 +346,7 @@
 
 ```json
 {
-    "code": 200321,
+    "code": 1,
     "msg": "success"
 }
 ```
@@ -395,7 +395,7 @@
 
 ```json
 {
-    "code": 200231,
+    "code": 1,
     "msg": "success", 
     "data": {
         "id": 1
@@ -446,7 +446,7 @@
 
 ```json
 {
-    "code": 200421,
+    "code": 1,
     "msg": "success",
     "data": {
         "id": 1,
@@ -497,7 +497,7 @@
 
 ```json
 {
-  "code": 200431,
+  "code": 1,
   "msg": "success",
   "data": [
       {
@@ -548,12 +548,7 @@
 | msg      | string   | 非必须   |        | 提示信息         |          |
 | data     | object[] | 非必须   |        | 返回的数据       |          |
 | \|-id    | string   | 必须     |        | 学生id           |          |
-<<<<<<< HEAD
-=======
-| \|-clazz | string   | 必须     |        | 学生班级         |          |
->>>>>>> 3982d5dca33c64073eeb0b3c5f79fe98554bd613
-| \|-score | int      | 必须     |        | 所有题目得分总分 |          |
-
+| \|-score | int | 必须     |        | 学生分数    |          |
 响应数据样例：
 
 ```json
@@ -707,7 +702,7 @@
 
 ```json
 {
-  "code": 200521,
+  "code": 1,
   "msg": "success",
   "data": [
       {
