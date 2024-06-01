@@ -1,6 +1,5 @@
 package org.scu.judgingsystem.service.imp;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.scu.judgingsystem.dao.ClassDao;
 import org.scu.judgingsystem.dao.UserDao;
 import org.scu.judgingsystem.pojo.Clazz;

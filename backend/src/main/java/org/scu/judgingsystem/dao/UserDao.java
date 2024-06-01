@@ -10,7 +10,6 @@ import java.util.List;
 
 @Mapper
 public interface UserDao extends BaseMapper<User> {
-
     @Select("SELECT tbl_users.username AS id, SUM(score) as score " +
             "FROM `tbl_users` JOIN `tbl_records` " +
             "ON tbl_users.username=tbl_records.username " +

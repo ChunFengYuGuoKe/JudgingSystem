@@ -27,7 +27,7 @@ public class HomeworkServiceImpl implements HomeworkService {
     String directory;
 
     @Override
-    public boolean add(Homework homework) {
+    public boolean add(Homework homework){
         if (homework != null) {
             homeworkDao.insert(homework);
             return true;
@@ -88,11 +88,7 @@ public class HomeworkServiceImpl implements HomeworkService {
     }
 
     @Override
-    public boolean deleteFile(String filename) {
-        try {
-            return FileUtils.deleteFile(new File(filename));
-        } catch (IOException e) {
-            return false;
-        }
+    public boolean deleteFile(String filename) throws IOException {
+        return FileUtils.deleteFile(new File(filename));
     }
 }

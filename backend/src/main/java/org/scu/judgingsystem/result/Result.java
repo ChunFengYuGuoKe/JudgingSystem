@@ -47,4 +47,10 @@ public class Result<T> implements Serializable {
         return result;
     }
 
+    public static <T> Result<T> error(Integer code, String message) {
+        Result result = new Result();
+        result.code = code;
+        result.msg = message;
+        return result;
+    }
 }
