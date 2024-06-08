@@ -1,10 +1,19 @@
 package org.scu.judgingsystem.utils;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.scu.judgingsystem.pojo.User;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.*;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -82,5 +91,28 @@ public class FileUtils {
         }
         // 删除文件
         return file.delete();
+    }
+
+    public static List<User> readStudentExcel(MultipartFile excel) throws IOException {
+        List<User> studentList = new ArrayList<>();
+
+        try (InputStream fis = excel.getInputStream();
+             Workbook workbook = new XSSFWorkbook(fis)) {
+            Sheet sheet = workbook.getSheetAt(0);
+            for (Row row : sheet) {
+                if (row.getRowNum() == 0) { // Skip header row
+                    continue;
+                }
+                User student = new User();
+                student.setName(row.getCell(0).getStringCellValue());
+                student.setPassword(row.getCell(0).getStringCellValue().substring(7, 12));
+                student.setIdentity(1);
+                student.setName(row.getCell(1).getStringCellValue());
+                student.setClazz(row.getCell(2).getStringCellValue());
+                student.setEmail(row.getCell(3).getStringCellValue());
+                studentList.add(student);
+            }
+        }
+        return studentList;
     }
 }

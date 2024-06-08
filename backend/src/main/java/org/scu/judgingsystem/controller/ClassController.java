@@ -1,14 +1,16 @@
 package org.scu.judgingsystem.controller;
 
 import org.scu.judgingsystem.pojo.Clazz;
+import org.scu.judgingsystem.pojo.User;
 import org.scu.judgingsystem.result.Result;
 import org.scu.judgingsystem.service.ClassService;
+import org.scu.judgingsystem.utils.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,5 +29,24 @@ public class ClassController {
         List<Clazz> classList = classService.getAll(id_teacher);
 
         return Result.success(classList);
+    }
+
+    @PostMapping("/new")
+    public Result newClass(String clazz, HttpSession session) {
+        classService.createClass(clazz, (String) session.getAttribute("username"));
+        return Result.success();
+    }
+
+    /**
+     * 导入学生信息
+     * @param clazz 班级号
+     * @param file 学生信息电子表格
+     */
+    @PostMapping("/import")
+    public Result importClass(String clazz,
+                              @RequestPart("file") MultipartFile file) throws IOException {
+        List<User> studentList = FileUtils.readStudentExcel(file);
+        Integer number = classService.importStudents(studentList);
+        return Result.success(number);
     }
 }
