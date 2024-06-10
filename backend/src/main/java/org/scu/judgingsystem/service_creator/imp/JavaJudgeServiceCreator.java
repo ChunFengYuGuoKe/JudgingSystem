@@ -1,8 +1,8 @@
 package org.scu.judgingsystem.service_creator.imp;
 
 import lombok.Getter;
-import org.scu.judgingsystem.service.JudgeService;
-import org.scu.judgingsystem.service.imp.JavaJudgeService;
+import org.scu.JavaJudgeService;
+import org.scu.JudgeService;
 import org.scu.judgingsystem.service_creator.JudgeServiceCreator;
 
 

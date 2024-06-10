@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/ojdb?useSSL=false&serverTimeZone=UTC
     username: root
-    password: root
+    password: 1227
 
 
 server:

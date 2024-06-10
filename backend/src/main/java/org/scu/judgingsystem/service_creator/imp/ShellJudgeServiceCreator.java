@@ -1,8 +1,8 @@
 package org.scu.judgingsystem.service_creator.imp;
 
 import lombok.Getter;
-import org.scu.judgingsystem.service.JudgeService;
-import org.scu.judgingsystem.service.imp.ShellJudgeService;
+
+import org.scu.JudgeService;
 import org.scu.judgingsystem.service_creator.JudgeServiceCreator;
 
 public class ShellJudgeServiceCreator extends JudgeServiceCreator {
@@ -18,6 +18,6 @@ public class ShellJudgeServiceCreator extends JudgeServiceCreator {
 
     @Override
     public JudgeService getJudgeService() {
-        return ShellJudgeService.getShellJudgeService();
+        return null;
     }
 }

@@ -1,8 +1,8 @@
 package org.scu.judgingsystem.service_creator;
 
 import lombok.extern.slf4j.Slf4j;
+import org.scu.JudgeService;
 import org.scu.judgingsystem.enums.CreatorClassNameEnum;
-import org.scu.judgingsystem.service.JudgeService;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
