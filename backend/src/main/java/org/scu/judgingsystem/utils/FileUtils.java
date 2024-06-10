@@ -49,7 +49,7 @@ public class FileUtils {
     }
 
     /**
-     *
+     * 删除文件
      * @param file 待删除文件对象
      * @return 删除成功/失败
      */
@@ -93,6 +93,10 @@ public class FileUtils {
         return file.delete();
     }
 
+    /**
+     * 读取学生电子表格
+     * @param excel 表格文件
+     */
     public static List<User> readStudentExcel(MultipartFile excel) throws IOException {
         List<User> studentList = new ArrayList<>();
 

@@ -43,6 +43,8 @@ public class JwtUtils {
     public static DecodedJWT decodeJwt(String token){
         JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(SECRET)).build();
         DecodedJWT decodedJWT = jwtVerifier.verify(token);
+        //DecodedJWT decodedJWT = JWT.decode(token);
+
         return decodedJWT;
     }
 }

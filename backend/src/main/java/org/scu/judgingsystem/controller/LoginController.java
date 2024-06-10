@@ -19,36 +19,46 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
+    /**
+     * 登录操作
+     * @param user 用户信息
+     * @param session HTTP会话
+     */
     @PostMapping("/login")
     public Result<String> login(@RequestBody User user, HttpSession session) {
-        // 查询用户数据库
         User loginUser = loginService.login(user);
 
-        // 判断用户是否存在
+        // 若存在符合条件的用户，则生成JWT令牌并返回
         if (loginUser != null) {
-            // 自定义信息
+            // 定义JWT令牌加密信息
             Map<String, String> claims = new HashMap<>();
             claims.put("username", user.getUsername());
             claims.put("password", user.getPassword());
             claims.put("identity", user.getIdentity().toString());
 
-            // 使用JWT工具类，生成身份令牌
+            // 生成JWT令牌
             String token = JwtUtils.generateJwt(claims);
 
+            // 设置HttpSession信息
             session.setAttribute("username", user.getUsername());
             session.setAttribute("identity", user.getIdentity());
+            // 只有学生维护班级信息
             if (user.getIdentity().equals(1)) {
-                // 只有学生维护班级信息
                 session.setAttribute("class", user.getClazz());
             }
 
             return Result.success(token);
         }
 
+        // 不存在符合条件的用户
         return Result.error("用户名或密码错误！");
     }
 
-    @GetMapping
+    /**
+     * 注销登录
+     * @param session Http会话
+     */
+    @GetMapping("/logout")
     public Result logOut(HttpSession session) {
         session.invalidate();
         return Result.success("注销成功！");

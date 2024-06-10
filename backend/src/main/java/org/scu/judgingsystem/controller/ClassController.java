@@ -31,6 +31,11 @@ public class ClassController {
         return Result.success(classList);
     }
 
+    /**
+     * 3.2 创建新班级
+     * @param clazz 班级号
+     * @param session Http会话
+     */
     @PostMapping("/new")
     public Result newClass(String clazz, HttpSession session) {
         classService.createClass(clazz, (String) session.getAttribute("username"));
@@ -38,7 +43,7 @@ public class ClassController {
     }
 
     /**
-     * 导入学生信息
+     * 3.3导入学生信息
      * @param clazz 班级号
      * @param file 学生信息电子表格
      */

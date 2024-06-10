@@ -6,8 +6,9 @@ import lombok.Data;
 @Data
 public class Clazz {
     @TableField("class_id")
-    private String id;
-    private String teacher;
+    private String classId;
+    @TableField("teacher")
+    private String teacherId;
     @TableField(exist = false)
-    private Integer count;
+    private Integer count;  // 学生人数
 }
