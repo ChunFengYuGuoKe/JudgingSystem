@@ -91,6 +91,18 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.41</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.scu</groupId>
+            <artifactId>judge-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.scu</groupId>
+            <artifactId>java-judge-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

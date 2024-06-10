@@ -1,5 +1,6 @@
 public class Solution {
-    public static void resolve(Integer a, Integer b) {
+    public static int resolve(Integer a, Integer b) {
+
         System.out.println("hello");
     }
 
