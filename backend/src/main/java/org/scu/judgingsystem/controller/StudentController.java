@@ -17,6 +17,10 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
+    /**
+     * 2.1 根据班级号查询学生列表
+     * @param id_class 班级号
+     */
     @GetMapping("/{id_class}")
     public Result getAll(@PathVariable String id_class) {
         List<Student> students = studentService.getAll(id_class);

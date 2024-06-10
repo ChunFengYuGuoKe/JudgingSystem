@@ -13,6 +13,6 @@ public class User {
     private Integer identity;
     private String name;
     @TableField("class")
-    private String classId;
+    private String clazz;
     private String email;
 }

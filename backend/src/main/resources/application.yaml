@@ -4,7 +4,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ojdb?serverTimeZone=UTC
+    url: jdbc:mysql://localhost:3306/ojdb?useSSL=false&serverTimeZone=UTC
     username: root
     password: root
 
@@ -12,6 +12,14 @@ spring:
 server:
   port: 8081
 
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+file:
+  homework-dir: /homework
+  user-dir: /users
+
+#logging:
+#  level:
+#    org.springframework: DEBUG

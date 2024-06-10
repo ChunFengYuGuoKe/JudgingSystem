@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 27/04/2024 17:34:11
+ Date: 01/06/2024 18:14:54
 */
 
 SET NAMES utf8mb4;
@@ -27,13 +27,14 @@ CREATE TABLE `tbl_homework`  (
   `id_lang` int(11) NOT NULL COMMENT '使用语言',
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '题目描述',
   `solution` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参考答案文件路径',
+  `usecases` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '测试用例文件路径',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tbl_homework
 -- ----------------------------
-INSERT INTO `tbl_homework` VALUES (1, 'a+b', 1, '输入两个数a和b,计算a加b的和', NULL);
-INSERT INTO `tbl_homework` VALUES (2, 'n皇后', 1, 'n皇后', NULL);
+INSERT INTO `tbl_homework` VALUES (1, 'a+b', 1, '输入两个数a和b,计算a加b的和', NULL, NULL);
+INSERT INTO `tbl_homework` VALUES (2, 'n皇后', 1, 'n皇后', NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

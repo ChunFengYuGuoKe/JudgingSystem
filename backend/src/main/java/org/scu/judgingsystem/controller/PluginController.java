@@ -11,6 +11,9 @@ import java.util.List;
 @RestController
 public class PluginController {
 
+    /**
+     * 5.2 获取已有插件信息
+     */
     @GetMapping("/plugin")
     public Result availablePlugins() {
         List<Plugin> plugins = new ArrayList<>();

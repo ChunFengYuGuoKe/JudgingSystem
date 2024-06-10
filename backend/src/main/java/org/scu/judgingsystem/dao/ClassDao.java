@@ -9,7 +9,6 @@ import java.util.List;
 
 @Mapper
 public interface ClassDao extends BaseMapper<Clazz> {
-
     @Select("SELECT class_id as id, COUNT(*) as count " +
             "FROM tbl_users JOIN tbl_class " +
             "ON tbl_users.class=tbl_class.class_id " +
