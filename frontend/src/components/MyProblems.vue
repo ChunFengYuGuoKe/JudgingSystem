@@ -47,8 +47,13 @@
 
         <el-form :model="form" :rules="rules" ref="formData" v-if="this.identity === 0">
             <el-form-item label="代码提交" prop='code'>
-                <el-upload :action="''" :auto-upload="false" :show-file-list="true" :on-change="handleFileChange"
-                    :limit="1">
+                <el-upload 
+                    :action="''" 
+                    :auto-upload="false" 
+                    :show-file-list="true" 
+                    :on-change="handleFileChange"
+                    :limit="1"
+                    :name="'code'">
                     <el-button size="small" type="primary">选择文件</el-button>
                 </el-upload>
                 <!-- <input type="file" ref="fileInput" @change="handleFileChange"> -->
@@ -296,7 +301,7 @@ export default {
             this.$refs.formData.validate(valid => {
                 if (valid) {
                     this.dialogProblemVisible = false;
-                    // console.log('发送表单：', this.form);
+                    console.log('发送表单：', this.form.code);
 
                     const formData_tmp = new FormData();
                     formData_tmp.append('code', this.form.code);
@@ -308,7 +313,7 @@ export default {
                     fetch(this.submitIP, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'multipart/form-data',
+                            // 'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7TMYhSONfkAM2z3a',
                             'Authorization': `Bearer ${this.jwt}`,
                         },
                         body: formData_tmp
@@ -332,7 +337,7 @@ export default {
                                     message: '提交成功',
                                     type: 'success',
                                 })
-                                // console.log('服务器返回的数据:', data.data[0].id);
+                                console.log('服务器返回的数据:', data.data);
                                 this.submissionShow(data.data.id);
                             }
                             else {

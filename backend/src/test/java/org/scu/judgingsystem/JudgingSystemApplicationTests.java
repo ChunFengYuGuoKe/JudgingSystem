@@ -7,9 +7,12 @@ import com.github.javaparser.ast.visitor.GenericVisitorAdapter;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONUtil;
+import org.junit.jupiter.api.DynamicContainer;
 import org.junit.jupiter.api.Test;
+import org.scu.JudgeService;
 import org.scu.judgingsystem.result.black_box_result.BlackBoxResult;
 import org.scu.judgingsystem.service_creator.JudgeServiceCreator;
+import org.scu.judgingsystem.utils.DynamicServiceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -63,4 +66,13 @@ class JudgingSystemApplicationTests {
 //        // 3. 调用判题服务类的判题方法
 //        judgeService1.judge(sourceFile, helloAST);
 //    }
+
+    @Test
+    void testSPI() throws Exception {
+        DynamicServiceLoader dynamicServiceLoader = new DynamicServiceLoader();
+        dynamicServiceLoader.loadNewService("E:\\ProgrammingTools\\apache-maven-3.9.6\\repo\\org\\scu");
+        JudgeService judgeService = dynamicServiceLoader.getJudgeService("java");
+
+        judgeService.blackBoxTest(new File("D:\\study\\软件项目实践\\JudgingSystem\\backend\\src\\main\\resources\\Solution.java"), 1);
+    }
 }

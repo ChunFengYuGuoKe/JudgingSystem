@@ -14,10 +14,12 @@ import java.util.List;
 public interface SubmitService {
     /**
      * 新增提交记录
-     * @param record 提交记录对象
+     *
+     * @param record   提交记录对象
+     * @param filePath
      * @return 提交记录id
      */
-    Long add(Record record);
+    Long add(Record record, String filePath);
 
     /**
      * 查询单条提交记录

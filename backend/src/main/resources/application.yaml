@@ -17,8 +17,8 @@ server:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 file:
-  homework-dir: /homework
-  user-dir: /users
+  homework-dir: files/homework
+  user-dir: files/users
 
 #logging:
 #  level:

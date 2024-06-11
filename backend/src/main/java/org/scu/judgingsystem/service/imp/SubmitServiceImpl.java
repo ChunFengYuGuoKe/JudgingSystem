@@ -1,17 +1,21 @@
 package org.scu.judgingsystem.service.imp;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import lombok.extern.slf4j.Slf4j;
+import org.scu.JudgeService;
+import org.scu.black_box_result.BlackBoxResult;
 import org.scu.judgingsystem.dao.RecordDao;
 import org.scu.judgingsystem.pojo.Judgement;
 import org.scu.judgingsystem.pojo.Ranking;
 import org.scu.judgingsystem.pojo.Record;
 import org.scu.judgingsystem.pojo.Submit;
 import org.scu.judgingsystem.service.SubmitService;
+import org.scu.judgingsystem.utils.DynamicServiceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,16 +23,32 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @Service
+@Slf4j
 public class SubmitServiceImpl implements SubmitService {
     @Autowired
     private RecordDao recordDao;
     @Value("${file.user-dir}")
     private String directory;
 
+    private static final String PLUGIN_SOURCE = "E:\\ProgrammingTools\\apache-maven-3.9.6\\repo\\org\\scu";
+
     @Override
-    public Long add(Record record) {
+    public Long add(Record record, String filePath) {
         if (record != null) {
             // 新增记录并返回id
+            DynamicServiceLoader dynamicServiceLoader = new DynamicServiceLoader();
+            try {
+                dynamicServiceLoader.loadNewService(PLUGIN_SOURCE);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            JudgeService judgeService = dynamicServiceLoader.getJudgeService("java");
+
+            BlackBoxResult blackBoxResult = judgeService.blackBoxTest(new File(filePath), record.getHomework());
+            record.setBlack(blackBoxResult.getFailedUseCase());
+            record.setScore(blackBoxResult.getScore());
+            log.info("提交结果" + record);
+
             recordDao.insert(record);
             return record.getId();
         }

@@ -1,5 +1,6 @@
 package org.scu.judgingsystem.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.scu.judgingsystem.pojo.*;
 import org.scu.judgingsystem.pojo.Record;
 import org.scu.judgingsystem.result.Result;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/submits")
+@Slf4j
 public class SubmitController {
     @Autowired
     private SubmitService submitService;
@@ -38,7 +40,7 @@ public class SubmitController {
         record.setTime(formatter.format(timestamp));
 
         // 文件操作
-        String uploadDir = String.format("/%s/%s/%s/%s/%d",
+        String uploadDir = String.format("/%s/%s/%s/%d",
                 session.getAttribute("class"),
                 session.getAttribute("username"),
                 record.getHomework(),
@@ -48,7 +50,7 @@ public class SubmitController {
 
         // 数据库操作/
         record.setAnswer(filePath);
-        submitService.add(record);
+        submitService.add(record, filePath);
 
         return Result.success(new HashMap<>(){{put("id", record.getId());}});
     }
@@ -57,7 +59,7 @@ public class SubmitController {
      * 4.2 查询提交记录详情
      * @param id_submit 提交id
      */
-    @GetMapping("/details/{id_submit}")
+    @GetMapping("/{id_submit}")
     public Result getDetails(@PathVariable Long id_submit){
         Judgement judgement = submitService.getOne(id_submit);
         return Result.success(judgement);
@@ -84,8 +86,25 @@ public class SubmitController {
             List<Ranking> ranking = submitService.getRanking((Long) session.getAttribute("class"));
             return Result.success(ranking);
         } else {
+            log.info("班级序号：" + id_class);
             List<Ranking> ranking = submitService.getRanking(id_class);
+            log.info("排行信息：" + ranking);
+            for (Ranking ranking1 : ranking) {
+                ranking1.setClazz(id_class);
+            }
             return Result.success(ranking);
         }
+    }
+
+    /**
+     *
+     * @param username
+     * @param id_homework
+     * @return
+     */
+    @GetMapping("/{username}/{id_homework}")
+    public Result getRecord(@PathVariable String username, @PathVariable Long id_homework ){
+        List<Submit> judgement = submitService.getAll(username, id_homework);
+        return Result.success(judgement);
     }
 }

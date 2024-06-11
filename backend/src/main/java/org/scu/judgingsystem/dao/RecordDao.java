@@ -24,14 +24,16 @@ public interface RecordDao extends BaseMapper<Record> {
     List<Submit> getAll(String id_stu, Long id_homework);
 
     @Select("WITH max_scores AS (" +
-            "    SELECT tbl_users.username, id_homework, MAX(score) AS max_score" +
-            "    FROM `tbl_users` JOIN `tbl_records` ON tbl_users.username=tbl_records.username" +
-            "    WHERE class = #{id_class}" +
-            "    GROUP BY username, id_homework), " +
+            "    SELECT tbl_users.username, id_homework, MAX(score) AS max_score " +
+            "    FROM tbl_users JOIN tbl_records ON tbl_users.username=tbl_records.username JOIN tbl_class ON tbl_users.class = tbl_class.class_id " +
+            "    WHERE tbl_class.id = ${id_class} " +
+            "    GROUP BY username, id_homework " +
+            ")," +
             "user_total_max_scores AS (" +
-            "    SELECT username, SUM(max_score) AS total_score" +
-            "    FROM max_scores" +
-            "    GROUP BY username)" +
+            "    SELECT username, SUM(max_score) AS total_score " +
+            "    FROM max_scores " +
+            "    GROUP BY username " +
+            ")" +
             "SELECT username AS id, total_score AS score " +
             "FROM user_total_max_scores " +
             "ORDER BY score DESC")
