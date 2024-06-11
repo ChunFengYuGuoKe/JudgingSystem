@@ -25,8 +25,8 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public boolean createClass(String class_id, String teacher_id) {
         Clazz clazz = new Clazz();
-        clazz.setId(class_id);
-        clazz.setTeacher(teacher_id);
+        clazz.setClassId(class_id);
+        clazz.setTeacherId(teacher_id);
         classDao.insert(clazz);
         return true;
     }
