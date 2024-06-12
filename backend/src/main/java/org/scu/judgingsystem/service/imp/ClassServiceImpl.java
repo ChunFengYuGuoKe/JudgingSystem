@@ -32,9 +32,10 @@ public class ClassServiceImpl implements ClassService {
     }
 
     @Override
-    public int importStudents(List<User> studentList) {
+    public int importStudents(String classId, List<User> studentList) {
         int count = 0;
         for (User student : studentList) {
+            student.setClazz(classId);
             userDao.insert(student);
             ++count;
         }

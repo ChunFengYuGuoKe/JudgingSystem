@@ -20,8 +20,9 @@ public interface ClassService {
 
     /**
      * 导入班级学生数据
+     * @param classId 导入的班级号
      * @param studentList 学生数据列表
      * @return 成功导入的学生数量
      */
-    int importStudents(List<User> studentList);
+    int importStudents(String classId, List<User> studentList);
 }

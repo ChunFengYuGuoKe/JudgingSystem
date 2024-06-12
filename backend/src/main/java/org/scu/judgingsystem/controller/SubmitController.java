@@ -31,7 +31,7 @@ public class SubmitController {
     public Result submit(Record record,
                          @RequestPart("code") MultipartFile file,
                          HttpSession session) throws Exception {
-//        record.setUsername(session.getAttribute("username").toString());
+        record.setUsername((String) session.getAttribute("username"));
 
         // 提交时间
         long timeMills = System.currentTimeMillis();
@@ -40,7 +40,9 @@ public class SubmitController {
         record.setTime(formatter.format(timestamp));
 
         // 文件操作
-        String uploadDir = String.format("/%s/%s/%s/%d",
+        // 存储目录 ./语言-班级/学号/题目/时间戳
+        String uploadDir = String.format("/%s-%s/%s/%s/%d",
+                record.getLanguage(),
                 session.getAttribute("class"),
                 session.getAttribute("username"),
                 record.getHomework(),
@@ -72,7 +74,8 @@ public class SubmitController {
     @GetMapping("/records/{id_homework}")
     public Result getRecords(@PathVariable Long id_homework, HttpSession session){
         List<Submit> submits = submitService.getAll(
-                session.getAttribute("username").toString(), id_homework);
+                (String) session.getAttribute("username"),
+                id_homework);
         return Result.success(submits);
     }
 

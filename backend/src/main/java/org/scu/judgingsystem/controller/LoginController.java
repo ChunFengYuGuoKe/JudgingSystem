@@ -43,7 +43,7 @@ public class LoginController {
             session.setAttribute("username", user.getUsername());
             session.setAttribute("identity", user.getIdentity());
             // 只有学生维护班级信息
-            if (user.getIdentity().equals(1)) {
+            if (user.getIdentity().equals(0)) {
                 session.setAttribute("class", user.getClazz());
             }
 

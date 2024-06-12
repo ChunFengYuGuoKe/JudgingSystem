@@ -104,16 +104,16 @@ public class FileUtils {
              Workbook workbook = new XSSFWorkbook(fis)) {
             Sheet sheet = workbook.getSheetAt(0);
             for (Row row : sheet) {
-                if (row.getRowNum() == 0) { // Skip header row
+                if (row.getRowNum() <= 7) { // 跳过表头
                     continue;
                 }
                 User student = new User();
-                student.setName(row.getCell(0).getStringCellValue());
-                student.setPassword(row.getCell(0).getStringCellValue().substring(7, 12));
-                student.setIdentity(1);
-                student.setName(row.getCell(1).getStringCellValue());
-                student.setClazz(row.getCell(2).getStringCellValue());
-                student.setEmail(row.getCell(3).getStringCellValue());
+                student.setUsername(row.getCell(1).getStringCellValue());
+                student.setPassword(row.getCell(1).getStringCellValue().substring(7, 12));
+                student.setIdentity(0);
+                student.setName(row.getCell(2).getStringCellValue());
+//                student.setClazz(row.getCell(2).getStringCellValue());
+                student.setEmail(row.getCell(8).getStringCellValue());
                 studentList.add(student);
             }
         }
