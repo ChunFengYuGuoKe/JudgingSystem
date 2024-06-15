@@ -18,21 +18,21 @@ public class HomeworkController {
 
     /**
      * 1.1 题目列表查询
-     * @param id_lang 语言id
+     * @param lang 语言
      */
-    @GetMapping("/{id_lang}")
-    public Result getAll(@PathVariable Integer id_lang) {
-        List<Homework> homeworkList = homeworkService.getAll(id_lang);
+    @GetMapping("/{lang}")
+    public Result getAll(@PathVariable String lang) {
+        List<Homework> homeworkList = homeworkService.getAll(lang);
         return Result.success(homeworkList);
     }
 
     /**
      * 1.2 题目查询
-     * @param id_lang 语言id（用于区别1.1，不作实际用途）
+     * @param lang 语言名称（用于区别1.1，不作实际用途）
      * @param id_homework 题目id
      */
-    @GetMapping("/{id_lang}/{id_homework}")
-    public Result get(@PathVariable Integer id_lang, @PathVariable Long id_homework) {
+    @GetMapping("/{lang}/{id_homework}")
+    public Result get(@PathVariable String lang, @PathVariable Long id_homework) {
         Homework homework = homeworkService.getById(id_homework);
         return Result.success(homework);
     }

@@ -7,7 +7,7 @@ public class Plugin {
     private Long id;
     private String name;
 
-    public Plugin(String name, Long id) {
+    public Plugin(Long id, String name) {
         this.id = id;
         this.name = name;
     }

@@ -43,7 +43,7 @@ public class ClassController {
     }
 
     /**
-     * 3.3导入学生信息
+     * 3.3 导入学生信息
      * @param id_class 班级号
      * @param file 学生信息电子表格
      */

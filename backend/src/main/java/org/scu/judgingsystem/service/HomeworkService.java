@@ -33,10 +33,10 @@ public interface HomeworkService {
 
     /**
      * 查询某语言全部题目
-     * @param id_lang 语言id
+     * @param lang 语言名称
      * @return 题目列表
      */
-    public List<Homework> getAll(Integer id_lang);
+    public List<Homework> getAll(String lang);
 
     /**
      *  上传题目文件

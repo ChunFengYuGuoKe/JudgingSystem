@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 01/06/2024 18:14:43
+ Date: 15/06/2024 20:01:04
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,7 @@ CREATE TABLE `tbl_class`  (
   UNIQUE INDEX `class_id`(`class_id`) USING BTREE,
   INDEX `teacher`(`teacher`) USING BTREE,
   CONSTRAINT `tbl_class_ibfk_1` FOREIGN KEY (`teacher`) REFERENCES `tbl_users` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tbl_class

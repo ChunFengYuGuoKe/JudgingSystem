@@ -13,8 +13,7 @@ public class Record {
     private Long id;
     @TableField("id_homework")
     private Integer homework;
-    @TableField("id_lang")
-    private Integer language;
+    private String language;
     private String username;
     private String answer;
     private Integer score;
