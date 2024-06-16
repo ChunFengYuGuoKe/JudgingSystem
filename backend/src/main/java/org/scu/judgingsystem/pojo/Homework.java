@@ -15,6 +15,6 @@ public class Homework {
     @TableField("id_lang")
     private Long language;
     private String description;
-    private String solution;
-    private String usecases;
+//    private String solutions;
+//    private String usecase;
 }

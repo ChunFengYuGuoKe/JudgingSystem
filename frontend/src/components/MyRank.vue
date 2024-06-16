@@ -27,6 +27,7 @@ export default {
         return {
             search: null,
             generateTableData: function () {
+                console.log("排行信息：" + this.ranks);
                 return this.ranks.filter(data =>
                     !this.search || data.clazz.includes(this.search)
                 );

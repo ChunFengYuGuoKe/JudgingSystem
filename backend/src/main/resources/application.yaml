@@ -19,6 +19,7 @@ server:
 file:
   homework-dir: files/homework
   user-dir: files/users
+  plugin-dir: E:/ProgrammingTools/apache-maven-3.9.6/repo/org/scu
 
 #logging:
 #  level:

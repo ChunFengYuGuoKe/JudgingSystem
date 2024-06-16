@@ -39,8 +39,8 @@ public class HomeworkServiceImpl implements HomeworkService {
     public boolean delete(Long id) throws IOException {
         Homework homework = getById(id);
         // 删除文件
-        FileUtils.deleteFile(new File(homework.getSolution()));
-        FileUtils.deleteFile(new File(homework.getUsecases()));
+        // FileUtils.deleteFile(new File(homework.getSolutions()));
+        // FileUtils.deleteFile(new File(homework.getUsecase()));
         // 删除数据库记录
         homeworkDao.deleteById(id);
         return true;

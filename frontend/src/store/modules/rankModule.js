@@ -18,6 +18,7 @@ const actions = {
     fetchRanks({
         commit
     }, payload) {
+        console.log('fetchRanks 被调用了，URL:', payload.url);
         fetch(payload.url, {
                 method: 'GET',
                 headers: {

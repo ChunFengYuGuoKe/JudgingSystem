@@ -30,7 +30,8 @@ public class SubmitServiceImpl implements SubmitService {
     @Value("${file.user-dir}")
     private String directory;
 
-    private static final String PLUGIN_SOURCE = "E:\\ProgrammingTools\\apache-maven-3.9.6\\repo\\org\\scu";
+    @Value("${file.plugin-dir}")
+    private String PLUGIN_SOURCE;
 
     @Override
     public Long add(Record record, String filePath) {

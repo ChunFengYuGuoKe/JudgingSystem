@@ -43,21 +43,23 @@ public class HomeworkController {
      * @param sf 题解代码文件
      * @param uf 测试用例压缩文件
      */
-    @PostMapping("")
+    @PostMapping("/add")
     public Result add(Homework homework,
-                      @RequestPart("solutionFile") MultipartFile sf,
-                      @RequestPart("usecaseFile") MultipartFile uf
+                      @RequestPart("solution") MultipartFile sf,
+                      @RequestPart("inputusecases") MultipartFile iuf,
+                      @RequestPart("outputusecases") MultipartFile ouf
     ) throws IOException {
-        String uploadDir = String.format("/%d/%s", homework.getLanguage(), homework.getTitle());
+        homeworkService.add(homework);
+        String uploadDir = String.format("/%d", homework.getId());
 
         // 题解
         String solutionPath = homeworkService.uploadFile(sf, uploadDir);
-        homework.setSolution(solutionPath);
+        // homework.setSolutions(solutionPath);
         // 测试用例
-        String usecasePath = homeworkService.uploadFile(uf, uploadDir);
-        homework.setUsecases(usecasePath);
-
-        homeworkService.add(homework);
+        String inputusecasePath = homeworkService.uploadFile(iuf, uploadDir);
+        // homework.setUsecase(usecasePath);
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" + ouf.getName());
+        String outputusecasePath = homeworkService.uploadFile(ouf, uploadDir);
 
         return Result.success();
     }

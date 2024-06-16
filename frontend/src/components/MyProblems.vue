@@ -126,8 +126,14 @@
                 </el-upload>
             </el-form-item>
 
-            <el-form-item label="测试用例" prop='usecases'>
+            <el-form-item label="输入用例" prop='inputusecases'>
                 <el-upload :action="''" :auto-upload="false" :show-file-list="true" :on-change="handleFileChange3">
+                    <el-button size="small" type="primary">选择文件</el-button>
+                </el-upload>
+            </el-form-item>
+
+            <el-form-item label="输出用例" prop='outputusecases'>
+                <el-upload :action="''" :auto-upload="false" :show-file-list="true" :on-change="handleFileChange4">
                     <el-button size="small" type="primary">选择文件</el-button>
                 </el-upload>
             </el-form-item>
@@ -231,7 +237,10 @@ export default {
             this.form2.solution = file.raw; // 存储用户选择的文件
         },
         handleFileChange3(file) {
-            this.form2.usecases = file.raw; // 存储用户选择的文件
+            this.form2.inputusecases = file.raw; // 存储用户选择的文件
+        },
+        handleFileChange4(file) {
+            this.form2.outputusecases = file.raw; // 存储用户选择的文件
         },
 
         addShow() {
@@ -367,13 +376,14 @@ export default {
                     formData_tmp.append('description', this.form2.description);
                     formData_tmp.append('language', this.form2.language);
                     formData_tmp.append('solution', this.form2.solution);
-                    formData_tmp.append('usecases', this.form2.usecases);
+                    formData_tmp.append('inputusecases', this.form2.inputusecases);
+                    formData_tmp.append('outputusecases', this.form2.outputusecases);
 
                     // 发送 POST 请求
                     fetch(this.homeworkAddIP, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'multipart/form-data',
+                            //'Content-Type': 'multipart/form-data',
                             'Authorization': `Bearer ${this.jwt}`,
                         },
                         body: formData_tmp
@@ -421,7 +431,7 @@ export default {
             fetch(`${this.homeworkIP}/${id}`, {
                 method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json',
+                    // 'Content-Type': 'application/json',
                     'Authorization': `Bearer ${this.jwt}`,
                 },
             })
