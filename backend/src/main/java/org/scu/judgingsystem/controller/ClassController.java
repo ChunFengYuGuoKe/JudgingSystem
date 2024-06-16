@@ -33,25 +33,25 @@ public class ClassController {
 
     /**
      * 3.2 创建新班级
-     * @param clazz 班级号
+     * @param id_class 班级号
      * @param session Http会话
      */
     @PostMapping("/new")
-    public Result newClass(String clazz, HttpSession session) {
-        classService.createClass(clazz, (String) session.getAttribute("username"));
+    public Result newClass(String id_class, HttpSession session) {
+        classService.createClass(id_class, (String) session.getAttribute("username"));
         return Result.success();
     }
 
     /**
-     * 3.3导入学生信息
-     * @param clazz 班级号
+     * 3.3 导入学生信息
+     * @param id_class 班级号
      * @param file 学生信息电子表格
      */
     @PostMapping("/import")
-    public Result importClass(String clazz,
-                              @RequestPart("file") MultipartFile file) throws IOException {
+    public Result importClass(String id_class,
+                              @RequestPart("studentList") MultipartFile file) throws IOException {
         List<User> studentList = FileUtils.readStudentExcel(file);
-        Integer number = classService.importStudents(studentList);
+        Integer number = classService.importStudents(id_class, studentList);
         return Result.success(number);
     }
 }

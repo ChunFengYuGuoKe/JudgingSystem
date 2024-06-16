@@ -15,9 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/submits")
-@Slf4j
 public class SubmitController {
     @Autowired
     private SubmitService submitService;
@@ -31,7 +31,7 @@ public class SubmitController {
     public Result submit(Record record,
                          @RequestPart("code") MultipartFile file,
                          HttpSession session) throws Exception {
-//        record.setUsername(session.getAttribute("username").toString());
+        record.setUsername((String) session.getAttribute("username"));
 
         // 提交时间
         long timeMills = System.currentTimeMillis();
@@ -40,6 +40,7 @@ public class SubmitController {
         record.setTime(formatter.format(timestamp));
 
         // 文件操作
+        // 存储目录： ./班级/学号/题目/时间戳
         String uploadDir = String.format("/%s/%s/%s/%d",
                 session.getAttribute("class"),
                 session.getAttribute("username"),
@@ -48,7 +49,7 @@ public class SubmitController {
         );
         String filePath = submitService.uploadFile(file, uploadDir);
 
-        // 数据库操作/
+        // 数据库操作
         record.setAnswer(filePath);
         submitService.add(record, filePath);
 
@@ -72,12 +73,13 @@ public class SubmitController {
     @GetMapping("/records/{id_homework}")
     public Result getRecords(@PathVariable Long id_homework, HttpSession session){
         List<Submit> submits = submitService.getAll(
-                session.getAttribute("username").toString(), id_homework);
+                (String) session.getAttribute("username"),
+                id_homework);
         return Result.success(submits);
     }
 
     /**
-     * 4.4 查询某语言学生积分排行榜
+     * 4.4 查询某班级学生积分排行榜
      * @param id_class 班级号
      */
     @GetMapping("/rank/{id_class}")
@@ -103,7 +105,7 @@ public class SubmitController {
      * @return
      */
     @GetMapping("/{username}/{id_homework}")
-    public Result getRecord(@PathVariable String username, @PathVariable Long id_homework ){
+    public Result getRecord(@PathVariable String username, @PathVariable Long id_homework){
         List<Submit> judgement = submitService.getAll(username, id_homework);
         return Result.success(judgement);
     }

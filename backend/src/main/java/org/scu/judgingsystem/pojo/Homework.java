@@ -12,7 +12,6 @@ public class Homework {
     @TableId(type = IdType.AUTO)
     private Long id;
     private String title;
-    @TableField("id_lang")
     private Long language;
     private String description;
 //    private String solutions;

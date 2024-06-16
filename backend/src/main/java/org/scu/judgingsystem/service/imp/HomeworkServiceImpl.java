@@ -52,9 +52,9 @@ public class HomeworkServiceImpl implements HomeworkService {
     }
 
     @Override
-    public List<Homework> getAll(Integer id_lang) {
+    public List<Homework> getAll(String lang) {
         QueryWrapper<Homework> qw = new QueryWrapper<>();
-        qw.eq("id_lang", id_lang);
+        qw.eq("language", lang);
         return homeworkDao.selectList(qw);
     }
 
